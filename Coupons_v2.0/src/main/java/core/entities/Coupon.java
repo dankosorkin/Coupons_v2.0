@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +19,7 @@ import javax.persistence.ManyToMany;
  * 
  * @autor Daniel Sorkin
  * 
- *        last update 2021-1-11
+ *        last update 2021-1-24
  */
 @Entity
 public class Coupon {
@@ -26,6 +28,7 @@ public class Coupon {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private int company_id;
+	@Enumerated(EnumType.ORDINAL)
 	private Category category;
 	private String title;
 	private String description;

@@ -1,13 +1,13 @@
 package core.entities;
 
-import javax.persistence.Entity;
-
 /**
+ * Enumerated list of available categories
+ * 
  * @autor Daniel Sorkin
  * 
- *        last update 2021-1-11
+ *        last update 2021-1-24
  */
-@Entity
+
 public enum Category {
 
 	FOOD, ELECTRICITY, RESTAURANT, VACATION, GAMES, SPORT;

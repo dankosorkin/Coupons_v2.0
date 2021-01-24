@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
  * 
  * @autor Daniel Sorkin
  * 
- *        last update 2021-1-11
+ *        last update 2021-1-24
  */
 @Entity
 public class Company {

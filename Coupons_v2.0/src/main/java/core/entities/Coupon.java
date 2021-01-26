@@ -1,5 +1,6 @@
 package core.entities;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
@@ -22,7 +23,9 @@ import javax.persistence.ManyToMany;
  *        last update 2021-1-24
  */
 @Entity
-public class Coupon {
+public class Coupon implements Serializable {
+
+	private static final long serialVersionUID = 1216035262725557198L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +45,10 @@ public class Coupon {
 	@JoinTable(name = "customers_vs_coupons", joinColumns = { @JoinColumn(name = "coupon_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "customer_id") })
 	private List<Customer> customers;
+
+	/** Empty constructor */
+	public Coupon() {
+	}
 
 	/**
 	 * Constructor creates coupon instance

@@ -1,5 +1,6 @@
 package core.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -16,7 +17,9 @@ import javax.persistence.OneToMany;
  *        last update 2021-1-24
  */
 @Entity
-public class Company {
+public class Company implements Serializable {
+
+	private static final long serialVersionUID = -7451609655834951342L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +29,10 @@ public class Company {
 	private String password;
 	@OneToMany
 	private List<Coupon> coupons;
+
+	/** Empty constructor */
+	public Company() {
+	}
 
 	/**
 	 * Constructor creates Company instance

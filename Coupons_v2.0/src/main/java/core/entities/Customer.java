@@ -1,5 +1,6 @@
 package core.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,7 +20,9 @@ import javax.persistence.ManyToMany;
  *        last update 2021-1-24
  */
 @Entity
-public class Customer {
+public class Customer implements Serializable {
+
+	private static final long serialVersionUID = 5655651958106563543L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +36,10 @@ public class Customer {
 	@JoinTable(name = "customers_vs_coupons", joinColumns = {
 			@JoinColumn(name = "customer_id") }, inverseJoinColumns = { @JoinColumn(name = "coupon_id") })
 	private List<Coupon> coupons;
+
+	/** Empty constructor */
+	public Customer() {
+	}
 
 	/**
 	 * Constructor creates Customer instance

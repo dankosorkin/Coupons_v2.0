@@ -3,7 +3,9 @@ package core.entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +29,8 @@ public class Company implements Serializable {
 	private String name;
 	private String email;
 	private String password;
-	@OneToMany
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "company", cascade = CascadeType.ALL)
 	private List<Coupon> coupons;
 
 	/** Empty constructor */

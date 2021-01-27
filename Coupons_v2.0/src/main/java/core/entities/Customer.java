@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +18,7 @@ import javax.persistence.ManyToMany;
  * 
  * @autor Daniel Sorkin
  * 
- *        last update 2021-1-24
+ *        last update 2021-1-26
  */
 @Entity
 public class Customer implements Serializable {
@@ -32,7 +33,8 @@ public class Customer implements Serializable {
 	private String email;
 	private String password;
 
-	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
 	@JoinTable(name = "customers_vs_coupons", joinColumns = {
 			@JoinColumn(name = "customer_id") }, inverseJoinColumns = { @JoinColumn(name = "coupon_id") })
 	private List<Coupon> coupons;

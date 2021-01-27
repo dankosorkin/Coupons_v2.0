@@ -25,7 +25,7 @@ public class Company implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String name;
 	private String email;
 	private String password;
@@ -53,9 +53,9 @@ public class Company implements Serializable {
 	/**
 	 * Get method returns a company id
 	 * 
-	 * @return int id
+	 * @return Integer id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -63,9 +63,9 @@ public class Company implements Serializable {
 	 * Set method for a company id. You should use the method to set company id you
 	 * get from database.
 	 * 
-	 * @param int id
+	 * @param Integer id
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

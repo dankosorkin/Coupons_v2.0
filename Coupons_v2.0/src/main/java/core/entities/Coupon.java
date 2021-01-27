@@ -31,16 +31,16 @@ public class Coupon implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private int company_id;
+	private Integer id;
+	private Integer company_id;
 	@Enumerated(EnumType.ORDINAL)
 	private Category category;
 	private String title;
 	private String description;
 	private Date startDate;
 	private Date endDate;
-	private int amount;
-	private double price;
+	private Integer amount;
+	private Double price;
 	private String image;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
@@ -61,18 +61,18 @@ public class Coupon implements Serializable {
 	/**
 	 * Constructor creates coupon instance
 	 * 
-	 * @param int      company_id
+	 * @param Integer  company_id
 	 * @param Category category
 	 * @param String   title
 	 * @param String   description
 	 * @param Date     startDate
 	 * @param Date     endDate
-	 * @param int      amount
-	 * @param double   price
+	 * @param Integer  amount
+	 * @param Double   price
 	 * @param String   image
 	 */
-	public Coupon(int company_id, Category category, String title, String description, Date startDate, Date endDate,
-			int amount, double price, String image) {
+	public Coupon(Integer company_id, Category category, String title, String description, Date startDate, Date endDate,
+			Integer amount, Double price, String image) {
 		this.company_id = company_id;
 		this.category = category;
 		this.title = title;
@@ -87,9 +87,9 @@ public class Coupon implements Serializable {
 	/**
 	 * Get method returns a coupon id
 	 * 
-	 * @return int id
+	 * @return Integer id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -97,27 +97,27 @@ public class Coupon implements Serializable {
 	 * Set method for a coupon id. You should use the method to set coupon id you
 	 * get from database.
 	 * 
-	 * @param int id
+	 * @param Integer id
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
 	/**
 	 * Get method returns a company id that a coupon belongs to
 	 * 
-	 * @return int company_id
+	 * @return Integer company_id
 	 */
-	public int getCompany_id() {
+	public Integer getCompany_id() {
 		return company_id;
 	}
 
 	/**
 	 * Set method for a company id that a coupon belongs to
 	 * 
-	 * @param int company_id
+	 * @param Integer company_id
 	 */
-	public void setCompany_id(int company_id) {
+	public void setCompany_id(Integer company_id) {
 		this.company_id = company_id;
 	}
 
@@ -214,36 +214,36 @@ public class Coupon implements Serializable {
 	/**
 	 * Get method returns a coupon available amount
 	 * 
-	 * @return int amount
+	 * @return Integer amount
 	 */
-	public int getAmount() {
+	public Integer getAmount() {
 		return amount;
 	}
 
 	/**
 	 * Set method for a coupon available amount
 	 * 
-	 * @param int amount
+	 * @param Integer amount
 	 */
-	public void setAmount(int amount) {
+	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
 
 	/**
 	 * Get method returns a coupon price
 	 * 
-	 * @return double price
+	 * @return Double price
 	 */
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
 	/**
 	 * Set method for a coupon price
 	 * 
-	 * @param double price
+	 * @param Double price
 	 */
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

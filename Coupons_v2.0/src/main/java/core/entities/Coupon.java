@@ -27,7 +27,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Coupon implements Serializable {
 
-	private static final long serialVersionUID = 1216035262725557198L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,8 +49,7 @@ public class Coupon implements Serializable {
 			@JoinColumn(name = "customer_id") })
 	private List<Customer> customers;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-			CascadeType.REFRESH })
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinColumn(name = "company_id")
 	private Company company;
 

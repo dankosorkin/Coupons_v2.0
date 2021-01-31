@@ -1,25 +1,20 @@
 package core;
 
-import org.springframework.beans.BeansException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-@ComponentScan
-public class Application implements ApplicationContextAware {
-
-	private static ApplicationContext ctx;
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		ctx = applicationContext;
+		try (ConfigurableApplicationContext ctx = SpringApplication.run(Application.class, args);) {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

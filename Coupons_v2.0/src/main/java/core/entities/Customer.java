@@ -23,7 +23,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Customer implements Serializable {
 
-	private static final long serialVersionUID = 5655651958106563543L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -15,7 +15,7 @@ public class Application {
 		try (ConfigurableApplicationContext ctx = SpringApplication.run(Application.class, args);) {
 
 			AdminService adminService = ctx.getBean(AdminService.class);
-			adminService.addCompany(new Company("AAA", "aaa@mail", "pass1234"));
+			adminService.updateCompany(new Company("ccc", "new@mail", "new_pass1234"));
 
 		} catch (Exception e) {
 			e.printStackTrace();

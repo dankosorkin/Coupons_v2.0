@@ -29,7 +29,7 @@ public class Coupon implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 //	private Integer company_id;
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private Category category;
 	private String title;
 	private String description;

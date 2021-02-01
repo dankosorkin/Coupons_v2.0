@@ -13,10 +13,6 @@ import javax.persistence.OneToMany;
 
 /**
  * Class describes Company entity
- * 
- * @autor Daniel Sorkin
- * 
- *        last update 2021-1-24
  */
 @Entity
 public class Company implements Serializable {

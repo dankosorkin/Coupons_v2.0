@@ -15,10 +15,6 @@ import javax.persistence.ManyToMany;
 
 /**
  * Class describes Customer entity
- * 
- * @autor Daniel Sorkin
- * 
- *        last update 2021-1-26
  */
 @Entity
 public class Customer implements Serializable {

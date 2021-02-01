@@ -9,9 +9,14 @@ import core.entities.Company;
 @Transactional
 public class AdminService extends ClientService {
 
+	private String email = "admin";
+	private String password = "admin1234";
+
 	@Override
-	public void login(String email, String password) {
-		// TODO Auto-generated method stub
+	public boolean login(String email, String password) {
+		if (this.email == email && this.password == password)
+			return true;
+		return false;
 
 	}
 

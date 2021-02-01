@@ -8,9 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class CompanyService extends ClientService {
 
 	@Override
-	public void login(String email, String password) {
-		// TODO Auto-generated method stub
-
+	public boolean login(String email, String password) {
+		return false;
 	}
 
 }

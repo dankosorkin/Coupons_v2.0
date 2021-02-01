@@ -28,7 +28,7 @@ public class Coupon implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Integer company_id;
+//	private Integer company_id;
 	@Enumerated(EnumType.ORDINAL)
 	private Category category;
 	private String title;
@@ -39,15 +39,15 @@ public class Coupon implements Serializable {
 	private Double price;
 	private String image;
 
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinColumn(name = "company_id")
+	private Company company;
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH })
 	@JoinTable(name = "customers_vs_coupons", joinColumns = { @JoinColumn(name = "coupon_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "customer_id") })
 	private List<Customer> customers;
-
-	@ManyToOne
-	@JoinColumn(name = "company_id")
-	private Company company;
 
 	/** Empty constructor */
 	public Coupon() {
@@ -66,9 +66,9 @@ public class Coupon implements Serializable {
 	 * @param Double   price
 	 * @param String   image
 	 */
-	public Coupon(Integer company_id, Category category, String title, String description, Date startDate, Date endDate,
+	public Coupon(Company company, Category category, String title, String description, Date startDate, Date endDate,
 			Integer amount, Double price, String image) {
-		this.company_id = company_id;
+		this.company = company;
 		this.category = category;
 		this.title = title;
 		this.description = description;
@@ -104,7 +104,7 @@ public class Coupon implements Serializable {
 	 * @return Integer company_id
 	 */
 	public Integer getCompany_id() {
-		return company_id;
+		return this.company.getId();
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class Coupon implements Serializable {
 	 * @param Integer company_id
 	 */
 	public void setCompany_id(Integer company_id) {
-		this.company_id = company_id;
+		this.company.setId(company_id);
 	}
 
 	/**
@@ -262,7 +262,7 @@ public class Coupon implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Coupon [id=" + id + ", company_id=" + company_id + ", category=" + category + ", title=" + title
+		return "Coupon [id=" + id + ", company_id=" + company.getId() + ", category=" + category + ", title=" + title
 				+ ", description=" + description + ", startDate=" + startDate + ", endDate=" + endDate + ", amount="
 				+ amount + ", price=" + price + ", image=" + image + "]";
 	}

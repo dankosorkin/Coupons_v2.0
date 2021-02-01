@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import core.entities.Company;
+import core.entities.Customer;
 import core.exceprtions.CouponSystemException;
 
 @Service
@@ -22,8 +23,7 @@ public class AdminService extends ClientService {
 	}
 
 	public void addCompany(Company company) throws CouponSystemException {
-		if (companyRepository.findByName(company.getName()) == null
-				&& companyRepository.findByEmail(company.getEmail()) == null) {
+		if (companyRepository.findByNameAndEmail(company.getName(), company.getEmail()) == null) {
 			companyRepository.save(company);
 		} else {
 			throw new CouponSystemException("[x] OPERATION FAILED >>> add company: already exists");
@@ -31,8 +31,9 @@ public class AdminService extends ClientService {
 	}
 
 	public boolean updateCompany(Company company) throws CouponSystemException {
-		Company companyDB = companyRepository.findByName(company.getName());
-		if (companyDB != null) {
+		Optional<Company> opt = companyRepository.findById(company.getId());
+		if (opt.isPresent()) {
+			Company companyDB = opt.get();
 			companyDB.setEmail(company.getEmail());
 			companyDB.setPassword(company.getPassword());
 			companyRepository.save(companyDB);
@@ -44,21 +45,21 @@ public class AdminService extends ClientService {
 
 	// customer purchases?
 	public Company deleteCompany(Integer id) throws CouponSystemException {
-		Optional<Company> companyDB = companyRepository.findById(id);
-		if (companyDB.isPresent()) {
-			companyRepository.delete(companyDB.get());
-			return companyDB.get();
+		Optional<Company> opt = companyRepository.findById(id);
+		if (opt.isPresent()) {
+			companyRepository.delete(opt.get());
+			return opt.get();
 		} else {
 			throw new CouponSystemException("[X] OPERATION FAILED >>> delete company: not found");
 		}
 	}
 
 	public Company getOneCompany(Integer id) throws CouponSystemException {
-		Optional<Company> companyDB = companyRepository.findById(id);
-		if (companyDB.isPresent())
-			return companyDB.get();
+		Optional<Company> opt = companyRepository.findById(id);
+		if (opt.isPresent())
+			return opt.get();
 		else
-			throw new CouponSystemException();
+			throw new CouponSystemException("[X] OPERATION FAILED >>> get company: not found");
 	}
 
 	public List<Company> getAllComapnies() throws CouponSystemException {
@@ -67,6 +68,26 @@ public class AdminService extends ClientService {
 			return companies;
 		else
 			throw new CouponSystemException("[X] OPERATION FAILED >>> get all companies: empty list");
+	}
+
+	public void addCustomer(Customer customer) throws CouponSystemException {
+
+	}
+
+	public void updateCustomer(Customer customer) throws CouponSystemException {
+
+	}
+
+	public void deleteCustomer(Customer customer) throws CouponSystemException {
+
+	}
+
+	public Customer getOneCustomer(Integer id) throws CouponSystemException {
+		return null;
+	}
+
+	public List<Customer> getAllCustomers() throws CouponSystemException {
+		return null;
 	}
 
 }

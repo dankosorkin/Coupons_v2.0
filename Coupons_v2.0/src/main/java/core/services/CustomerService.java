@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CustomerService extends ClientService {
 
+	private Integer id;
+
 	@Override
 	public boolean login(String email, String password) {
 		return false;

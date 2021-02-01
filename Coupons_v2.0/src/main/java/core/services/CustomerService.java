@@ -1,7 +1,14 @@
 package core.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import core.entities.Category;
+import core.entities.Coupon;
+import core.entities.Customer;
+import core.exceprtions.CouponSystemException;
 
 @Service
 @Transactional
@@ -12,6 +19,26 @@ public class CustomerService extends ClientService {
 	@Override
 	public boolean login(String email, String password) {
 		return false;
+	}
+
+	public void purchaseCoupon(Coupon coupon) throws CouponSystemException {
+
+	}
+
+	public List<Coupon> getAllCoupons() throws CouponSystemException {
+		return null;
+	}
+
+	public List<Coupon> gettAllByCategory(Category category) throws CouponSystemException {
+		return null;
+	}
+
+	public List<Coupon> getAllByPrice(double maxPrice) throws CouponSystemException {
+		return null;
+	}
+
+	public Customer loggedInCustomer() throws CouponSystemException {
+		return null;
 	}
 
 }

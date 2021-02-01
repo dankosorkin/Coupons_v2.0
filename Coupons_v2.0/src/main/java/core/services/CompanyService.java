@@ -22,15 +22,12 @@ public class CompanyService extends ClientService {
 	}
 
 	public void addCoupon(Coupon coupon) throws CouponSystemException {
-
 	}
 
 	public void updateCoupon(Coupon coupon) throws CouponSystemException {
-
 	}
 
 	public void deleteCoupon(Integer id) throws CouponSystemException {
-
 	}
 
 	public List<Coupon> getAllCoupons() throws CouponSystemException {

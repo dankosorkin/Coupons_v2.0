@@ -1,6 +1,6 @@
 package core.services;
 
-public interface ClientService {
+public abstract class ClientService {
 
 	public abstract void login(String email, String password);
 

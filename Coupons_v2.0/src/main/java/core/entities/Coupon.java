@@ -45,7 +45,7 @@ public class Coupon implements Serializable {
 			@JoinColumn(name = "customer_id") })
 	private List<Customer> customers;
 
-	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@ManyToOne
 	@JoinColumn(name = "company_id")
 	private Company company;
 

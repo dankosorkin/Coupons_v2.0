@@ -71,7 +71,11 @@ public class AdminService extends ClientService {
 	}
 
 	public void addCustomer(Customer customer) throws CouponSystemException {
-
+		if (customerRepository.findByEmail(customer.getEmail()) == null) {
+			customerRepository.save(customer);
+		} else {
+			throw new CouponSystemException("[x] OPERATION FAILED >>> add customer: already exists");
+		}
 	}
 
 	public void updateCustomer(Customer customer) throws CouponSystemException {

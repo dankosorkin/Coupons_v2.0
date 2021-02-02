@@ -43,7 +43,6 @@ public class AdminService extends ClientService {
 		}
 	}
 
-	// customer purchases?
 	public Company deleteCompany(Integer id) throws CouponSystemException {
 		Optional<Company> opt = companyRepository.findById(id);
 		if (opt.isPresent()) {
@@ -78,20 +77,45 @@ public class AdminService extends ClientService {
 		}
 	}
 
-	public void updateCustomer(Customer customer) throws CouponSystemException {
-
+	public boolean updateCustomer(Customer customer) throws CouponSystemException {
+		Optional<Customer> opt = customerRepository.findById(customer.getId());
+		if (opt.isPresent()) {
+			Customer customerDB = opt.get();
+			customerDB.setFirstName(customer.getFirstName());
+			customerDB.setLastName(customer.getLastName());
+			customerDB.setEmail(customer.getEmail());
+			customerDB.setPassword(customer.getPassword());
+			customerRepository.save(customerDB);
+			return true;
+		} else {
+			throw new CouponSystemException("[X] OPERATION FAILED >>> update customer: not found");
+		}
 	}
 
-	public void deleteCustomer(Customer customer) throws CouponSystemException {
-
+	public Customer deleteCustomer(Integer id) throws CouponSystemException {
+		Optional<Customer> opt = customerRepository.findById(id);
+		if (opt.isPresent()) {
+			customerRepository.delete(opt.get());
+			return opt.get();
+		} else {
+			throw new CouponSystemException("[X] OPERATION FAILED >>> delete customer: not found");
+		}
 	}
 
 	public Customer getOneCustomer(Integer id) throws CouponSystemException {
-		return null;
+		Optional<Customer> opt = customerRepository.findById(id);
+		if (opt.isPresent())
+			return opt.get();
+		else
+			throw new CouponSystemException("[X] OPERATION FAILED >>> get customer: not found");
 	}
 
 	public List<Customer> getAllCustomers() throws CouponSystemException {
-		return null;
+		List<Customer> companies = customerRepository.findAll();
+		if (companies != null)
+			return companies;
+		else
+			throw new CouponSystemException("[X] OPERATION FAILED >>> get all customers: empty list");
 	}
 
 }

@@ -7,6 +7,8 @@ import core.exceprtions.CouponSystemException;
 
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
+	Company findByEmailAndPassword(String email, String password);
+
 	Company findByNameAndEmail(String name, String email) throws CouponSystemException;
 
 }

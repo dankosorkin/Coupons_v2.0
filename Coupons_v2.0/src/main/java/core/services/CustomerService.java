@@ -2,6 +2,8 @@ package core.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +14,7 @@ import core.exceprtions.CouponSystemException;
 
 @Service
 @Transactional
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class CustomerService extends ClientService {
 
 	private Integer id;

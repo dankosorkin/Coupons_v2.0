@@ -18,13 +18,13 @@ public class CompanyService extends ClientService {
 	private Integer id;
 
 	@Override
-	public boolean login(String email, String password) {
+	public boolean login(String email, String password) throws CouponSystemException {
 		Company company = companyRepository.findByEmailAndPassword(email, password);
 		if (company != null) {
 			this.id = company.getId();
 			return true;
 		}
-		return false;
+		throw new CouponSystemException("[x] OPERATION FAILED >>> failed to login");
 	}
 
 	public Coupon addCoupon(Coupon coupon) throws CouponSystemException {
@@ -76,8 +76,10 @@ public class CompanyService extends ClientService {
 
 	public Company loggedInCompany() throws CouponSystemException {
 		Optional<Company> opt = companyRepository.findById(this.id);
-
-		return;
+		if (opt.isPresent())
+			return opt.get();
+		else
+			throw new CouponSystemException("[X] OPERATION FAILED");
 	}
 
 }

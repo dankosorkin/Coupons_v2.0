@@ -17,8 +17,13 @@ public class CustomerService extends ClientService {
 	private Integer id;
 
 	@Override
-	public boolean login(String email, String password) {
-		return false;
+	public boolean login(String email, String password) throws CouponSystemException {
+		Customer customer = customerRepository.findByEmailAndPassword(email, password);
+		if (customer != null) {
+			this.id = customer.getId();
+			return true;
+		}
+		throw new CouponSystemException("[x] OPERATION FAILED >>> failed to login");
 	}
 
 	public void purchaseCoupon(Coupon coupon) throws CouponSystemException {

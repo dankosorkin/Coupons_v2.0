@@ -27,7 +27,7 @@ public class CompanyService extends ClientService {
 			this.id = company.getId();
 			return true;
 		}
-		throw new CouponSystemException("[x] OPERATION FAILED >>> failed to login");
+		throw new CouponSystemException("[x] OPERATION FAILED >>> company not found");
 	}
 
 	public Coupon addCoupon(Coupon coupon) throws CouponSystemException {

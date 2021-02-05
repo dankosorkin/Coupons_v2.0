@@ -22,9 +22,10 @@ public class AdminService extends ClientService {
 		return this.email == email && this.password == password;
 	}
 
-	public void addCompany(Company company) throws CouponSystemException {
+	public Company addCompany(Company company) throws CouponSystemException {
 		if (companyRepository.findByNameAndEmail(company.getName(), company.getEmail()) == null) {
 			companyRepository.save(company);
+			return company;
 		} else {
 			throw new CouponSystemException("[x] OPERATION FAILED >>> add company: already exists");
 		}
@@ -69,9 +70,9 @@ public class AdminService extends ClientService {
 			throw new CouponSystemException("[X] OPERATION FAILED >>> get all companies: empty list");
 	}
 
-	public void addCustomer(Customer customer) throws CouponSystemException {
+	public Customer addCustomer(Customer customer) throws CouponSystemException {
 		if (customerRepository.findByEmail(customer.getEmail()) == null) {
-			customerRepository.save(customer);
+			return customerRepository.save(customer);
 		} else {
 			throw new CouponSystemException("[x] OPERATION FAILED >>> add customer: already exists");
 		}

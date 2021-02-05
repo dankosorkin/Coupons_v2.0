@@ -1,4 +1,4 @@
-package core.exceprtions;
+package core.exceptions;
 
 public class CouponSystemException extends Exception {
 

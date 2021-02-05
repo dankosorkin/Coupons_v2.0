@@ -2,7 +2,7 @@ package core.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import core.exceprtions.CouponSystemException;
+import core.exceptions.CouponSystemException;
 import core.repositories.CompanyRepository;
 import core.repositories.CouponRepository;
 import core.repositories.CustomerRepository;

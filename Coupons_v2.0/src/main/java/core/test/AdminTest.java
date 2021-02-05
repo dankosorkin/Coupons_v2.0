@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import core.entities.Company;
 import core.entities.Customer;
-import core.exceprtions.CouponSystemException;
+import core.exceptions.CouponSystemException;
 import core.login.ClientType;
 import core.login.LoginManager;
 import core.services.AdminService;

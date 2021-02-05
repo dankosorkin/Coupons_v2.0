@@ -3,7 +3,7 @@ package core.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import core.entities.Company;
-import core.exceprtions.CouponSystemException;
+import core.exceptions.CouponSystemException;
 
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
 

@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import core.entities.Category;
 import core.entities.Company;
 import core.entities.Coupon;
-import core.exceprtions.CouponSystemException;
+import core.exceptions.CouponSystemException;
 
 @Service
 @Transactional

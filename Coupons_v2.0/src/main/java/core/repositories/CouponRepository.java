@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import core.entities.Category;
 import core.entities.Coupon;
-import core.exceprtions.CouponSystemException;
+import core.exceptions.CouponSystemException;
 
 public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 

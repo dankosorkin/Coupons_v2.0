@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import core.entities.Category;
 import core.entities.Coupon;
 import core.entities.Customer;
-import core.exceprtions.CouponSystemException;
+import core.exceptions.CouponSystemException;
 
 @Service
 @Transactional

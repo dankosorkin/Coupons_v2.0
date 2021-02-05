@@ -3,7 +3,7 @@ package core.login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import core.exceprtions.CouponSystemException;
+import core.exceptions.CouponSystemException;
 import core.services.AdminService;
 import core.services.ClientService;
 import core.services.CompanyService;

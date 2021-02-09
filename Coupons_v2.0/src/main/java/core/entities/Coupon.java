@@ -1,7 +1,7 @@
 package core.entities;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,8 +33,8 @@ public class Coupon implements Serializable {
 	private Category category;
 	private String title;
 	private String description;
-	private Date startDate;
-	private Date endDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private Integer amount;
 	private Double price;
 	private String image;
@@ -56,18 +56,18 @@ public class Coupon implements Serializable {
 	/**
 	 * Constructor creates coupon instance
 	 * 
-	 * @param Integer  company_id
-	 * @param Category category
-	 * @param String   title
-	 * @param String   description
-	 * @param Date     startDate
-	 * @param Date     endDate
-	 * @param Integer  amount
-	 * @param Double   price
-	 * @param String   image
+	 * @param Integer   company_id
+	 * @param Category  category
+	 * @param String    title
+	 * @param String    description
+	 * @param LocalDate startDate
+	 * @param LocalDate endDate
+	 * @param Integer   amount
+	 * @param Double    price
+	 * @param String    image
 	 */
-	public Coupon(Company company, Category category, String title, String description, Date startDate, Date endDate,
-			Integer amount, Double price, String image) {
+	public Coupon(Company company, Category category, String title, String description, LocalDate startDate,
+			LocalDate endDate, Integer amount, Double price, String image) {
 		this.company = company;
 		this.category = category;
 		this.title = title;
@@ -173,36 +173,36 @@ public class Coupon implements Serializable {
 	/**
 	 * Get method return a coupon start date
 	 * 
-	 * @return Date startDate
+	 * @return LocalDate startDate
 	 */
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
 	/**
 	 * Set method for a coupon start date
 	 * 
-	 * @param Date startDate
+	 * @param LocalDate startDate
 	 */
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
 	/**
 	 * Get method for a coupon end date
 	 * 
-	 * @return Date endDate
+	 * @return LocalDate endDate
 	 */
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
 	/**
 	 * Set method for a coupon end date
 	 * 
-	 * @param Date endDate
+	 * @param LocalDate endDate
 	 */
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 

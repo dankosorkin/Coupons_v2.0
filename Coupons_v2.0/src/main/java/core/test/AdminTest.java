@@ -15,14 +15,15 @@ import core.services.AdminService;
 @Component
 public class AdminTest {
 
-	private static String email = "admin";
-	private static String password = "admin1234";
+	private static final String email = "admin";
+	private static final String password = "admin1234";
 
 	@Autowired
-	private static LoginManager manager;
-	private static AdminService service;
+	private LoginManager manager;
+	private AdminService service;
 
 	public AdminTest() {
+
 	}
 
 	public void login() {
@@ -34,12 +35,13 @@ public class AdminTest {
 	}
 
 	public void addCompanies() {
+		System.out.println("=== Add companies ===");
 		try {
-			Company c1 = service.addCompany(new Company("aaa", "aaa@mail", "pass1234"));
-			Company c2 = service.addCompany(new Company("bbb", "bbb@mail", "pass1234"));
-			Company c3 = service.addCompany(new Company("ccc", "ccc@mail", "pass1234"));
-			Company c4 = service.addCompany(new Company("ddd", "ddd@mail", "pass1234"));
-			Company c5 = service.addCompany(new Company("eee", "eee@mail", "pass1234"));
+			Company c1 = service.addCompany(new Company("Apple", "apple@mail", "pass1234"));
+			Company c2 = service.addCompany(new Company("Sony", "sony@mail", "pass1234"));
+			Company c3 = service.addCompany(new Company("LG", "lg@mail", "pass1234"));
+			Company c4 = service.addCompany(new Company("Samsung", "samsung@mail", "pass1234"));
+			Company c5 = service.addCompany(new Company("Philips", "philips@mail", "pass1234"));
 
 			System.out.println(c1);
 			System.out.println(c2);
@@ -52,12 +54,13 @@ public class AdminTest {
 	}
 
 	public void updateCompany(int id) {
+		System.out.println("=== Update company ===");
 		try {
 			Company company = service.getOneCompany(id);
 
-			company.setName("LG");
-			company.setEmail("lg@mail");
-			company.setPassword("lg1234");
+			company.setName("SonyInc");
+			company.setEmail("new_sony@mail");
+			company.setPassword("sony1234");
 			if (service.updateCompany(company))
 				System.out.println(service.getOneCompany(company.getId()));
 
@@ -68,6 +71,7 @@ public class AdminTest {
 	}
 
 	public void deleteCompany(int id) {
+		System.out.println("=== Delete company ===");
 		Company deletedCompany;
 		try {
 			deletedCompany = service.deleteCompany(id);
@@ -78,6 +82,7 @@ public class AdminTest {
 	}
 
 	public void getCompany(int id) {
+		System.out.println("=== Get one company ===");
 		try {
 			System.out.println(service.getOneCompany(id));
 		} catch (CouponSystemException e) {
@@ -86,11 +91,11 @@ public class AdminTest {
 	}
 
 	public void getCompanies() {
+		System.out.println("=== List of companies ===");
 		List<Company> companies;
 		try {
 			companies = service.getAllComapnies();
 			if (companies != null) {
-				System.out.println(">>> List of companies");
 				for (Company company : companies) {
 					System.out.println(company);
 				}
@@ -103,6 +108,7 @@ public class AdminTest {
 	}
 
 	public void addCustomers() {
+		System.out.println("=== Add customers ===");
 		try {
 			Customer cs1 = service.addCustomer(new Customer("Avi", "Aaa", "avi@mail", "avi1234"));
 			Customer cs2 = service.addCustomer(new Customer("Beny", "Bbb", "beny@mail", "beny1234"));
@@ -121,13 +127,14 @@ public class AdminTest {
 	}
 
 	public void updateCustomer(int id) {
+		System.out.println("=== Update customer ===");
 		Customer customer;
 		try {
 			customer = service.getOneCustomer(id);
-			customer.setFirstName("Roman");
-			customer.setLastName("Nemirovski");
-			customer.setEmail("raspizdyai@forever");
-			customer.setPassword("18cm");
+			customer.setFirstName("Yosi");
+			customer.setLastName("Yyy");
+			customer.setEmail("yosi@nail");
+			customer.setPassword("yosi1234");
 			if (service.updateCustomer(customer))
 				System.out.println(service.getOneCustomer(customer.getId()));
 		} catch (CouponSystemException e) {
@@ -136,6 +143,7 @@ public class AdminTest {
 	}
 
 	public void deleteCustomer(int id) {
+		System.out.println("=== Delete customer ===");
 		Customer customer;
 		try {
 			customer = service.deleteCustomer(id);
@@ -146,14 +154,20 @@ public class AdminTest {
 	}
 
 	public void getCustomer(int id) {
+		System.out.println("=== Get one customer ===");
+		try {
+			System.out.println(service.getOneCustomer(id));
+		} catch (CouponSystemException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void getCustomers() {
+		System.out.println("=== List of customers ===");
 		List<Customer> customers;
 		try {
 			customers = service.getAllCustomers();
 			if (customers != null) {
-				System.out.println(">>> List of customers");
 				for (Customer customer : customers) {
 					System.out.println(customer);
 				}
@@ -176,7 +190,8 @@ public class AdminTest {
 		addCustomers();
 		updateCustomer(2);
 		deleteCustomer(3);
-
+		getCustomer(1);
+		getCustomers();
 	}
 
 }

@@ -26,7 +26,6 @@ public class CompanyTest {
 	}
 
 	public void login() {
-		System.out.println("company test login");
 		try {
 			service = (CompanyService) manager.login(email, password, ClientType.COMPANY);
 		} catch (CouponSystemException e) {

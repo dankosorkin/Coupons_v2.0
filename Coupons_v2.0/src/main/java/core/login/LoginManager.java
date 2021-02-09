@@ -26,11 +26,14 @@ public class LoginManager {
 
 		switch (client) {
 		case ADMINISTRATOR:
-			return adminService;
+			if (adminService.login(email, password))
+				return adminService;
 		case COMPANY:
-			return companyService;
+			if (companyService.login(email, password))
+				return companyService;
 		case CUSTOMER:
-			return customerService;
+			if (customerService.login(email, password))
+				return customerService;
 		default:
 			throw new CouponSystemException("Client type doesnt recongnized");
 		}

@@ -22,6 +22,7 @@ public class CompanyService extends ClientService {
 
 	@Override
 	public boolean login(String email, String password) throws CouponSystemException {
+		System.out.println("inside company service");
 		Company company = companyRepository.findByEmailAndPassword(email, password);
 		if (company != null) {
 			this.id = company.getId();

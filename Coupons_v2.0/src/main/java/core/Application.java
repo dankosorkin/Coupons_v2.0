@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import core.test.AdminTest;
+import core.test.CompanyTest;
 
 @SpringBootApplication
 public class Application {
@@ -15,6 +16,9 @@ public class Application {
 
 			AdminTest admin = ctx.getBean(AdminTest.class);
 			admin.testAll();
+
+			CompanyTest company = ctx.getBean(CompanyTest.class);
+			company.testAll();
 
 		} catch (Exception e) {
 			e.printStackTrace();

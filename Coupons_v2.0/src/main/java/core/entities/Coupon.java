@@ -28,7 +28,8 @@ public class Coupon implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Enumerated(EnumType.STRING)
+//	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
 	private Category category;
 	private String title;
 	private String description;
@@ -38,7 +39,7 @@ public class Coupon implements Serializable {
 	private Double price;
 	private String image;
 
-	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@ManyToOne
 	@JoinColumn(name = "company_id")
 	private Company company;
 

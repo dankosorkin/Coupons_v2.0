@@ -21,28 +21,32 @@ import core.exceptions.CouponSystemException;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class CompanyService extends ClientService {
 
-	private Company company;
+	private Integer id;
 
 	@PersistenceContext
 	private EntityManager em;
 
 	@Override
 	public boolean login(String email, String password) throws CouponSystemException {
-		Company company = companyRepository.findByEmailAndPassword(email, password);
-		if (company != null) {
-			this.company = company;
+		try {
+			Company company = companyRepository.findByEmailAndPassword(email, password);
+			if (company != null)
+				this.id = company.getId();
 			return true;
+		} catch (Exception e) {
+			throw new CouponSystemException("[x] OPERATION FAILED >>> company not found");
 		}
-		throw new CouponSystemException("[x] OPERATION FAILED >>> company not found");
 	}
 
 	public Coupon addCoupon(Coupon coupon) throws CouponSystemException {
 		Coupon couponDB = couponRepository.findByTitle(coupon.getTitle());
-		if (couponDB == null || !coupon.getCompany().equals(this.company)) {
-			System.out.println("service: " + coupon);
-//			em.refresh(this.company);
-			company.addCoupon(coupon);
-//			couponRepository.save(coupon);
+		if (couponDB == null || couponDB.getCompany().getId() != this.id) {
+			Optional<Company> opt = companyRepository.findById(this.id);
+			if (opt.isPresent()) {
+				Company company = opt.get();
+//				em.refresh(company);
+				company.addCoupon(coupon);
+			}
 			return coupon;
 		}
 		throw new CouponSystemException("[x] OPERATION FAILED >>> add coupon: already exists");
@@ -78,7 +82,7 @@ public class CompanyService extends ClientService {
 
 	public Coupon getOneCoupon(Integer id) throws CouponSystemException {
 		Coupon coupon = couponRepository.getOne(id);
-		if (coupon != null && coupon.getCompany() == this.company)
+		if (coupon != null && coupon.getCompany().getId() == this.id)
 			return coupon;
 		throw new CouponSystemException("[X] OPERATION FAILED >>> get coupon: not found");
 	}
@@ -96,7 +100,10 @@ public class CompanyService extends ClientService {
 	}
 
 	public Company loggedInCompany() throws CouponSystemException {
-		return this.company;
+		Optional<Company> opt = companyRepository.findById(id);
+		if (opt.isPresent())
+			return opt.get();
+		return null;
 	}
 
 }

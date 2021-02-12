@@ -19,11 +19,7 @@ public class LoginManager {
 	@Autowired
 	private CustomerService customerService;
 
-	public LoginManager() {
-	}
-
 	public ClientService login(String email, String password, ClientType client) throws CouponSystemException {
-
 		switch (client) {
 		case ADMINISTRATOR:
 			if (adminService.login(email, password))
@@ -35,8 +31,7 @@ public class LoginManager {
 			if (customerService.login(email, password))
 				return customerService;
 		default:
-			throw new CouponSystemException("Client type doesnt recongnized");
+			throw new CouponSystemException("Client type doesnt recognized");
 		}
-
 	}
 }

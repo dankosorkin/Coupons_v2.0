@@ -102,7 +102,7 @@ public class AdminTest {
 		customer = service.getOneCustomer(id);
 		customer.setFirstName("Yosi");
 		customer.setLastName("Yyy");
-		customer.setEmail("yosi@nail");
+		customer.setEmail("yosi@mail");
 		customer.setPassword("yosi1234");
 		if (service.updateCustomer(customer))
 			System.out.println(service.getOneCustomer(customer.getId()));

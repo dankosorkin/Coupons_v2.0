@@ -28,7 +28,6 @@ public class Coupon implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-//	private Integer company_id;
 	@Enumerated(EnumType.STRING)
 	private Category category;
 	private String title;
@@ -56,7 +55,7 @@ public class Coupon implements Serializable {
 	/**
 	 * Constructor creates coupon instance
 	 * 
-	 * @param Integer   company_id
+	 * @param Company   company
 	 * @param Category  category
 	 * @param String    title
 	 * @param String    description
@@ -99,21 +98,21 @@ public class Coupon implements Serializable {
 	}
 
 	/**
-	 * Get method returns a company id that a coupon belongs to
+	 * Get method returns a company that a coupon belongs to
 	 * 
-	 * @return Integer company_id
+	 * @return Comapny company
 	 */
-	public Integer getCompany_id() {
-		return this.company.getId();
+	public Company getCompany() {
+		return this.company;
 	}
 
 	/**
-	 * Set method for a company id that a coupon belongs to
+	 * Set method for a company that a coupon belongs to
 	 * 
-	 * @param Integer company_id
+	 * @param Company company
 	 */
-	public void setCompany_id(Integer company_id) {
-		this.company.setId(company_id);
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	/**

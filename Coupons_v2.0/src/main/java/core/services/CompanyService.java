@@ -3,6 +3,9 @@ package core.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -18,13 +21,16 @@ import core.exceptions.CouponSystemException;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class CompanyService extends ClientService {
 
-	private Integer id;
+	private Company company;
+
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
 	public boolean login(String email, String password) throws CouponSystemException {
 		Company company = companyRepository.findByEmailAndPassword(email, password);
 		if (company != null) {
-			this.id = company.getId();
+			this.company = company;
 			return true;
 		}
 		throw new CouponSystemException("[x] OPERATION FAILED >>> company not found");
@@ -32,8 +38,13 @@ public class CompanyService extends ClientService {
 
 	public Coupon addCoupon(Coupon coupon) throws CouponSystemException {
 		Coupon couponDB = couponRepository.findByTitle(coupon.getTitle());
-		if (couponDB == null || coupon.getCompany_id() != this.id)
-			return couponRepository.save(coupon);
+		if (couponDB == null || !coupon.getCompany().equals(this.company)) {
+			System.out.println("service: " + coupon);
+//			em.refresh(this.company);
+			company.addCoupon(coupon);
+//			couponRepository.save(coupon);
+			return coupon;
+		}
 		throw new CouponSystemException("[x] OPERATION FAILED >>> add coupon: already exists");
 	}
 
@@ -65,6 +76,13 @@ public class CompanyService extends ClientService {
 		}
 	}
 
+	public Coupon getOneCoupon(Integer id) throws CouponSystemException {
+		Coupon coupon = couponRepository.getOne(id);
+		if (coupon != null && coupon.getCompany() == this.company)
+			return coupon;
+		throw new CouponSystemException("[X] OPERATION FAILED >>> get coupon: not found");
+	}
+
 	public List<Coupon> getAllCoupons() throws CouponSystemException {
 		return couponRepository.findAll();
 	}
@@ -78,11 +96,7 @@ public class CompanyService extends ClientService {
 	}
 
 	public Company loggedInCompany() throws CouponSystemException {
-		Optional<Company> opt = companyRepository.findById(this.id);
-		if (opt.isPresent())
-			return opt.get();
-		else
-			throw new CouponSystemException("[X] OPERATION FAILED");
+		return this.company;
 	}
 
 }

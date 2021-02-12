@@ -1,10 +1,13 @@
 package core.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +28,7 @@ public class Company implements Serializable {
 	private String email;
 	private String password;
 
-	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "company", cascade = CascadeType.ALL)
 	private List<Coupon> coupons;
 
 	/** Empty constructor */
@@ -127,11 +130,35 @@ public class Company implements Serializable {
 		return coupons;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Company)) {
+			return false;
+		}
+		Company other = (Company) obj;
+		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
+	}
+
 	/**
 	 * Set method for collection of the coupons belonging to a company
 	 */
 	public void setCoupons(List<Coupon> coupons) {
 		this.coupons = coupons;
+	}
+
+	public boolean addCoupon(Coupon coupon) {
+		if (this.coupons == null) {
+			coupons = new ArrayList<Coupon>();
+		}
+		return coupons.add(coupon);
 	}
 
 	@Override

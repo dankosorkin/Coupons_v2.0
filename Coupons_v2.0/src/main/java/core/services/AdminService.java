@@ -38,12 +38,11 @@ public class AdminService extends ClientService {
 	 * @throws CouponSystemException
 	 */
 	public Company addCompany(Company company) throws CouponSystemException {
-		try {
-			if (companyRepository.findByNameAndEmail(company.getName(), company.getEmail()) == null)
-				companyRepository.save(company);
+		if (companyRepository.findByNameAndEmail(company.getName(), company.getEmail()) == null) {
+			companyRepository.save(company);
 			return company;
-		} catch (Exception e) {
-			throw new CouponSystemException("[x] OPERATION FAILED >>> add company: already exists", e);
+		} else {
+			throw new CouponSystemException("[x] OPERATION FAILED >>> add company: already exists");
 		}
 	}
 
@@ -79,17 +78,13 @@ public class AdminService extends ClientService {
 	 * @throws CouponSystemException
 	 */
 	public Company deleteCompany(Integer id) throws CouponSystemException {
-		Company company = null;
-		try {
-			Optional<Company> opt = companyRepository.findById(id);
-			if (opt.isPresent()) {
-				companyRepository.delete(opt.get());
-				company = opt.get();
-			}
-			return company;
-		} catch (Exception e) {
-			throw new CouponSystemException("[X] OPERATION FAILED >>> delete company: not found", e);
-		}
+		Optional<Company> opt = companyRepository.findById(id);
+		if (opt.isPresent()) {
+			companyRepository.delete(opt.get());
+			return opt.get();
+		} else
+			throw new CouponSystemException("[X] OPERATION FAILED >>> delete company: not found");
+
 	}
 
 	/**
@@ -100,15 +95,11 @@ public class AdminService extends ClientService {
 	 * @throws CouponSystemException
 	 */
 	public Company getOneCompany(Integer id) throws CouponSystemException {
-		Company company = null;
-		try {
-			Optional<Company> opt = companyRepository.findById(id);
-			if (opt.isPresent())
-				company = opt.get();
-			return company;
-		} catch (Exception e) {
-			throw new CouponSystemException("[X] OPERATION FAILED >>> get company: not found", e);
-		}
+		Optional<Company> opt = companyRepository.findById(id);
+		if (opt.isPresent())
+			return opt.get();
+		else
+			throw new CouponSystemException("[X] OPERATION FAILED >>> get company: not found");
 	}
 
 	/**

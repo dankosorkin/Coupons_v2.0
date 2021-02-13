@@ -28,14 +28,12 @@ public class CompanyService extends ClientService {
 
 	@Override
 	public boolean login(String email, String password) throws CouponSystemException {
-		try {
-			Company company = companyRepository.findByEmailAndPassword(email, password);
-			if (company != null)
-				this.id = company.getId();
+		Company company = companyRepository.findByEmailAndPassword(email, password);
+		if (company != null) {
+			this.id = company.getId();
 			return true;
-		} catch (Exception e) {
+		} else
 			throw new CouponSystemException("[x] OPERATION FAILED >>> company not found");
-		}
 	}
 
 	public Coupon addCoupon(Coupon coupon) throws CouponSystemException {
@@ -44,7 +42,7 @@ public class CompanyService extends ClientService {
 			Optional<Company> opt = companyRepository.findById(this.id);
 			if (opt.isPresent()) {
 				Company company = opt.get();
-//				em.refresh(company);
+				coupon = em.merge(coupon);
 				company.addCoupon(coupon);
 			}
 			return coupon;

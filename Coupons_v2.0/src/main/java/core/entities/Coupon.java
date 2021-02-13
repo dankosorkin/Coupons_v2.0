@@ -39,7 +39,7 @@ public class Coupon implements Serializable {
 	private Double price;
 	private String image;
 
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinColumn(name = "company_id")
 	private Company company;
 

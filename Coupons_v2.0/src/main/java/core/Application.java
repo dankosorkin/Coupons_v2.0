@@ -20,6 +20,8 @@ public class Application {
 			CompanyTest company = ctx.getBean(CompanyTest.class);
 			company.testAll();
 
+//			admin.deleteCompany(1);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

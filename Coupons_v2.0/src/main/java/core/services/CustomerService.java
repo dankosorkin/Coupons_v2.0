@@ -2,6 +2,9 @@ package core.services;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,9 @@ import core.exceptions.CouponSystemException;
 public class CustomerService extends ClientService {
 
 	private Integer id;
+
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
 	public boolean login(String email, String password) throws CouponSystemException {

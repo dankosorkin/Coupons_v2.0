@@ -47,6 +47,7 @@ public class CompanyTest {
 		System.out.println(c3);
 		System.out.println(c4);
 		System.out.println(c5);
+
 	}
 
 	public void updateCoupon() throws CouponSystemException {
@@ -61,7 +62,7 @@ public class CompanyTest {
 		try {
 			login();
 			addCoupons();
-//			updateCoupon();
+			updateCoupon();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

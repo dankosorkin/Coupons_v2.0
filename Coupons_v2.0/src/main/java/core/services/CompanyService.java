@@ -1,5 +1,6 @@
 package core.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,11 +91,25 @@ public class CompanyService extends ClientService {
 	}
 
 	public List<Coupon> getAllByCategory(Category category) throws CouponSystemException {
-		return couponRepository.findAllByCategory(category);
+
+		List<Coupon> companyCoupons = companyRepository.getOne(this.id).getCoupons();
+		List<Coupon> categoryCoupons = new ArrayList<Coupon>();
+
+		for (Coupon coupon : companyCoupons)
+			if (coupon.getCategory().equals(category))
+				categoryCoupons.add(coupon);
+
+		return categoryCoupons;
 	}
 
 	public List<Coupon> getAllByPrice(double maxPrice) throws CouponSystemException {
-		return couponRepository.findAllByPrice(maxPrice);
+		List<Coupon> companyCoupons = companyRepository.getOne(this.id).getCoupons();
+		List<Coupon> priceCoupons = new ArrayList<Coupon>();
+
+		for (Coupon coupon : companyCoupons)
+			if (coupon.getPrice() <= maxPrice)
+				priceCoupons.add(coupon);
+		return priceCoupons;
 	}
 
 	public Company loggedInCompany() throws CouponSystemException {

@@ -1,6 +1,7 @@
 package core.test;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -53,9 +54,45 @@ public class CompanyTest {
 	public void updateCoupon() throws CouponSystemException {
 		Coupon coupon = service.getOneCoupon(2);
 
-		// TODO update coupon fields
+		coupon.setCategory(Category.RESTAURANT);
+		coupon.setTitle("AAAAAAAAA");
+		coupon.setDescription("*** Description ***");
+		coupon.setStartDate(LocalDate.of(2021, 02, 15));
+		coupon.setEndDate(LocalDate.of(2021, 03, 10));
+		coupon.setAmount(5);
+		coupon.setPrice(2.99);
+		service.updateCoupon(coupon);
 
 		System.out.println("Updated coupon: " + coupon);
+	}
+
+	public void deleteCoupon(Integer id) throws CouponSystemException {
+		Coupon coupon = service.getOneCoupon(2);
+		if (coupon != null) {
+			System.out.println("Delete coupon: " + coupon);
+			service.deleteCoupon(id);
+		}
+	}
+
+	public void getAllCoupons() throws CouponSystemException {
+		List<Coupon> coupons = service.getAllCoupons();
+
+		if (coupons != null) {
+			System.out.println(">>> All company coupons");
+			for (Coupon coupon : coupons) {
+				System.out.println(coupon);
+			}
+		}
+	}
+
+	public void getAllByCategory() throws CouponSystemException {
+		List<Coupon> coupons = service.getAllByCategory(Category.ELECTRICITY);
+
+		System.out.println("==========");
+		for (Coupon coupon : coupons) {
+			System.out.println(coupon);
+		}
+
 	}
 
 	public void testAll() {
@@ -63,6 +100,9 @@ public class CompanyTest {
 			login();
 			addCoupons();
 			updateCoupon();
+			deleteCoupon(2);
+			getAllCoupons();
+			getAllByCategory();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

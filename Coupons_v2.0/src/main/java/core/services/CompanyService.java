@@ -116,7 +116,7 @@ public class CompanyService extends ClientService {
 		Optional<Company> opt = companyRepository.findById(id);
 		if (opt.isPresent())
 			return opt.get();
-		return null;
+		throw new CouponSystemException("Try re-login");
 	}
 
 }

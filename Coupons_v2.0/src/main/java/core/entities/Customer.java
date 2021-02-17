@@ -1,6 +1,7 @@
 package core.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -161,6 +162,13 @@ public class Customer implements Serializable {
 	 */
 	public void setCoupons(List<Coupon> coupons) {
 		this.coupons = coupons;
+	}
+
+	public boolean addCoupon(Coupon coupon) {
+		if (this.coupons == null) {
+			coupons = new ArrayList<Coupon>();
+		}
+		return coupons.add(coupon);
 	}
 
 	@Override

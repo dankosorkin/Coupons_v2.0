@@ -1,6 +1,8 @@
 package core.services;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,8 +37,37 @@ public class CustomerService extends ClientService {
 		throw new CouponSystemException("[x] OPERATION FAILED >>> failed to login");
 	}
 
-	public void purchaseCoupon(Coupon coupon) throws CouponSystemException {
+	public boolean purchaseCoupon(Coupon coupon) throws CouponSystemException {
 
+		// synchronize with database
+		em.refresh(coupon);
+
+		// check coupon quantity
+		if (coupon.getAmount() < 1)
+			throw new CouponSystemException("Selected coupon is out of stock");
+
+		// check coupon date
+		if (coupon.getEndDate().isBefore(LocalDate.now()))
+			throw new CouponSystemException("Selceted coupon is expired");
+
+		// check customer coupons purchases
+		Optional<Customer> opt = customerRepository.findById(this.id);
+		if (opt.isPresent()) {
+			Customer customer = opt.get();
+
+			List<Coupon> coupons = customer.getCoupons();
+			em.refresh(coupons);
+
+			for (Coupon current : coupons) {
+				if (current.getId() == coupon.getId())
+					throw new CouponSystemException("You allready both this coupon");
+			}
+			em.merge(coupon);
+			customer.addCoupon(coupon);
+
+			return true;
+		} else
+			throw new CouponSystemException("Failed p urchase coupon");
 	}
 
 	public List<Coupon> getAllCoupons() throws CouponSystemException {

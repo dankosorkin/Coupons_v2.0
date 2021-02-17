@@ -88,11 +88,19 @@ public class CompanyTest {
 	public void getAllByCategory() throws CouponSystemException {
 		List<Coupon> coupons = service.getAllByCategory(Category.ELECTRICITY);
 
-		System.out.println("==========");
+		System.out.println(">>> All company coupons by category");
 		for (Coupon coupon : coupons) {
 			System.out.println(coupon);
 		}
+	}
 
+	public void getAllByPrice(double price) throws CouponSystemException {
+		List<Coupon> coupons = service.getAllByPrice(price);
+
+		System.out.println(">>> All company coupons by max price");
+		for (Coupon coupon : coupons) {
+			System.out.println(coupon);
+		}
 	}
 
 	public void testAll() {
@@ -103,6 +111,7 @@ public class CompanyTest {
 			deleteCoupon(2);
 			getAllCoupons();
 			getAllByCategory();
+			getAllByPrice(8);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

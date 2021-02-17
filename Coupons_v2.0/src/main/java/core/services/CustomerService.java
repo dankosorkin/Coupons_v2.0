@@ -67,7 +67,7 @@ public class CustomerService extends ClientService {
 
 			return true;
 		} else
-			throw new CouponSystemException("Failed p urchase coupon");
+			throw new CouponSystemException("Failed purchase coupon");
 	}
 
 	public List<Coupon> getAllCoupons() throws CouponSystemException {

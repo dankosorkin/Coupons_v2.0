@@ -24,11 +24,9 @@ public class CompanyTest {
 
 	private CompanyService service;
 
-	public CompanyTest() {
-	}
-
 	public void login() throws CouponSystemException {
 		service = (CompanyService) manager.login(email, password, ClientType.COMPANY);
+		System.out.println("===== Company test ======");
 	}
 
 	public void addCoupons() throws CouponSystemException {

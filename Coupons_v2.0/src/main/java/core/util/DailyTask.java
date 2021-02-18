@@ -10,37 +10,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import core.entities.Coupon;
+import core.exceptions.CouponSystemException;
 import core.repositories.CouponRepository;
 
 @Component
 public class DailyTask extends Thread {
+
+	private boolean quit;
+	private Thread appThread;
 
 	@Autowired
 	private CouponRepository repository;
 
 	@PostConstruct
 	public void post() {
-
+		this.quit = false;
+		this.appThread = new Thread();
+		System.out.println(" <<<<<<<<<< Daily task started >>>>>>>>>>");
 	}
 
 	@Override
 	public void run() {
+		System.out.println(" <<<<<<<<<< Daily task run() >>>>>>>>>>");
+		this.appThread = Thread.currentThread();
 		try {
-			while (true) {
-				List<Coupon> coupons = repository.findAll();
-				for (Coupon coupon : coupons)
-					if (coupon.getEndDate().isAfter(LocalDate.now()))
-						repository.delete(coupon);
-				sleep(24 * 60 * 60 * 1000);
+			while (!quit) {
+				List<Coupon> coupons = repository.findByEndDateAfter(LocalDate.now());
+				synchronized (coupons) {
+					if (coupons != null) {
+						for (Coupon coupon : coupons) {
+							repository.deleteById(coupon.getId());
+						}
+					}
+					System.out.println(" <<<<<<<<<< Daily task waits >>>>>>>>>>");
+					wait(500);
+					System.out.println(" <<<<<<<<<< Daily task continue >>>>>>>>>>");
+				}
 			}
-		} catch (InterruptedException e) {
+		} catch (CouponSystemException | InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@PreDestroy
 	public void pre() {
-
+		this.quit = true;
+		System.out.println(" <<<<<<<<<< Daily task ended >>>>>>>>>>");
 	}
 
 }

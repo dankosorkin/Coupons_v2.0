@@ -27,6 +27,7 @@ public class AdminTest {
 
 	public void login() throws CouponSystemException {
 		service = (AdminService) manager.login(email, password, ClientType.ADMINISTRATOR);
+		System.out.println("===== Admin test ======");
 	}
 
 	public void addCompanies() throws CouponSystemException {

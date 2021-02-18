@@ -17,41 +17,41 @@ import core.repositories.CouponRepository;
 public class DailyTask extends Thread {
 
 	private boolean quit;
-	private Thread appThread;
+//	private Thread appThread;
 
 	@Autowired
 	private CouponRepository repository;
 
 	@PostConstruct
 	public void post() {
-		this.quit = false;
-		this.appThread = new Thread();
-		System.out.println(" <<<<<<<<<< Daily task started >>>>>>>>>>");
+		this.start();
 	}
 
 	@Override
 	public void run() {
-		this.appThread = Thread.currentThread();
-		try {
-			while (!quit) {
-				List<Coupon> coupons = repository.findByEndDateAfter(LocalDate.now());
-				synchronized (coupons) {
-					if (coupons != null) {
-						for (Coupon coupon : coupons) {
-							repository.deleteById(coupon.getId());
-						}
-					}
-					wait(500);
+//		this.appThread = Thread.currentThread();
+		while (!quit) {
+			try {
+				Thread.sleep(3000);
+				List<Coupon> coupons = repository.findByEndDateBefore(LocalDate.now());
+				for (Coupon coupon : coupons) {
+					System.out
+							.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + coupon);
+					repository.deleteById(coupon.getId());
 				}
+			} catch (CouponSystemException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				break;
 			}
-		} catch (CouponSystemException | InterruptedException e) {
-			e.printStackTrace();
+			System.out.println("***********************");
 		}
 	}
 
 	@PreDestroy
 	public void pre() {
 		this.quit = true;
+		this.interrupt();
 		System.out.println(" <<<<<<<<<< Daily task ended >>>>>>>>>>");
 	}
 

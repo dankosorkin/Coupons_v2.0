@@ -43,7 +43,7 @@ public class CompanyService extends ClientService {
 			Optional<Company> opt = companyRepository.findById(this.id);
 			if (opt.isPresent()) {
 				Company company = opt.get();
-				coupon = em.merge(coupon);
+//				coupon = em.merge(coupon);
 				company.addCoupon(coupon);
 			}
 			return coupon;

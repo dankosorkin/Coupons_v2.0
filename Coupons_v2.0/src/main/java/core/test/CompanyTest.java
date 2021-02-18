@@ -39,7 +39,7 @@ public class CompanyTest {
 		Coupon c4 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player4",
 				"1Tb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 03, 28), 10, 8.9, null));
 		Coupon c5 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player5",
-				"2Tb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 03, 28), 10, 9.9, null));
+				"2Tb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 02, 17), 10, 9.9, null));
 
 		System.out.println(c1);
 		System.out.println(c2);

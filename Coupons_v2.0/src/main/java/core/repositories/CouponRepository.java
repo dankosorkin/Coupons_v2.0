@@ -12,6 +12,6 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
 	Coupon findByTitle(String title) throws CouponSystemException;
 
-	List<Coupon> findByEndDateAfter(LocalDate date) throws CouponSystemException;
+	List<Coupon> findByEndDateBefore(LocalDate date) throws CouponSystemException;
 
 }

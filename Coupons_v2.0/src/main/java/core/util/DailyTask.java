@@ -31,7 +31,6 @@ public class DailyTask extends Thread {
 
 	@Override
 	public void run() {
-		System.out.println(" <<<<<<<<<< Daily task run() >>>>>>>>>>");
 		this.appThread = Thread.currentThread();
 		try {
 			while (!quit) {
@@ -42,9 +41,7 @@ public class DailyTask extends Thread {
 							repository.deleteById(coupon.getId());
 						}
 					}
-					System.out.println(" <<<<<<<<<< Daily task waits >>>>>>>>>>");
 					wait(500);
-					System.out.println(" <<<<<<<<<< Daily task continue >>>>>>>>>>");
 				}
 			}
 		} catch (CouponSystemException | InterruptedException e) {

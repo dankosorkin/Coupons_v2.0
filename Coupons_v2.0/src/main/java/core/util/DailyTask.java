@@ -17,7 +17,6 @@ import core.repositories.CouponRepository;
 public class DailyTask extends Thread {
 
 	private boolean quit;
-//	private Thread appThread;
 
 	@Autowired
 	private CouponRepository repository;
@@ -25,18 +24,16 @@ public class DailyTask extends Thread {
 	@PostConstruct
 	public void post() {
 		this.start();
+		System.out.println(" <<<<<<<<<< Daily task start >>>>>>>>>>");
 	}
 
 	@Override
 	public void run() {
-//		this.appThread = Thread.currentThread();
 		while (!quit) {
 			try {
 				Thread.sleep(3000);
 				List<Coupon> coupons = repository.findByEndDateBefore(LocalDate.now());
 				for (Coupon coupon : coupons) {
-					System.out
-							.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + coupon);
 					repository.deleteById(coupon.getId());
 				}
 			} catch (CouponSystemException e) {
@@ -44,7 +41,6 @@ public class DailyTask extends Thread {
 			} catch (InterruptedException e) {
 				break;
 			}
-			System.out.println("***********************");
 		}
 	}
 

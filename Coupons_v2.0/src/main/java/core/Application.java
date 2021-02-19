@@ -24,7 +24,7 @@ public class Application {
 			CustomerTest customer = ctx.getBean(CustomerTest.class);
 			customer.testAll();
 
-			Thread.sleep(20000);
+			Thread.sleep(10000);
 
 		} catch (Exception e) {
 			e.printStackTrace();

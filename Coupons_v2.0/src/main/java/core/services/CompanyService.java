@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -24,9 +21,6 @@ public class CompanyService extends ClientService {
 
 	private Integer id;
 
-	@PersistenceContext
-	private EntityManager em;
-
 	@Override
 	public boolean login(String email, String password) throws CouponSystemException {
 		Company company = companyRepository.findByEmailAndPassword(email, password);
@@ -37,13 +31,13 @@ public class CompanyService extends ClientService {
 			throw new CouponSystemException("[x] OPERATION FAILED >>> company not found");
 	}
 
+	// && coupon.getEndDate().isAfter(LocalDate.now())
 	public Coupon addCoupon(Coupon coupon) throws CouponSystemException {
 		Coupon couponDB = couponRepository.findByTitle(coupon.getTitle());
-		if (couponDB == null || couponDB.getCompany().getId() != this.id) {
+		if ((couponDB == null || couponDB.getCompany().getId() != this.id)) {
 			Optional<Company> opt = companyRepository.findById(this.id);
 			if (opt.isPresent()) {
 				Company company = opt.get();
-//				coupon = em.merge(coupon);
 				company.addCoupon(coupon);
 			}
 			return coupon;

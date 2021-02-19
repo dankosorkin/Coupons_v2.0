@@ -22,7 +22,7 @@ public class DailyTask extends Thread {
 	private CouponRepository repository;
 
 	@PostConstruct
-	public void post() {
+	public void startTask() {
 		this.start();
 		System.out.println(" <<<<<<<<<< Daily task start >>>>>>>>>>");
 	}
@@ -31,10 +31,10 @@ public class DailyTask extends Thread {
 	public void run() {
 		while (!quit) {
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(5000);
 				List<Coupon> coupons = repository.findByEndDateBefore(LocalDate.now());
 				for (Coupon coupon : coupons) {
-					repository.deleteById(coupon.getId());
+					repository.delete(coupon);
 				}
 			} catch (CouponSystemException e) {
 				e.printStackTrace();
@@ -45,7 +45,7 @@ public class DailyTask extends Thread {
 	}
 
 	@PreDestroy
-	public void pre() {
+	public void stopTask() {
 		this.quit = true;
 		this.interrupt();
 		System.out.println(" <<<<<<<<<< Daily task ended >>>>>>>>>>");

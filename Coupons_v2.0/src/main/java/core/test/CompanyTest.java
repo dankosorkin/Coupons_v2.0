@@ -39,6 +39,16 @@ public class CompanyTest {
 		Coupon c4 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player4",
 				"1Tb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 03, 28), 10, 8.9, null));
 		Coupon c5 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player5",
+				"2Tb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 03, 17), 10, 9.9, null));
+		Coupon c6 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player6",
+				"2Tb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 04, 17), 10, 9.9, null));
+		Coupon c7 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player7",
+				"2Tb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 02, 17), 10, 9.9, null));
+		Coupon c8 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player8",
+				"2Tb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 02, 17), 10, 9.9, null));
+		Coupon c9 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player9",
+				"2Tb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 02, 17), 10, 9.9, null));
+		Coupon c10 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player10",
 				"2Tb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 02, 17), 10, 9.9, null));
 
 		System.out.println(c1);
@@ -46,6 +56,11 @@ public class CompanyTest {
 		System.out.println(c3);
 		System.out.println(c4);
 		System.out.println(c5);
+		System.out.println(c6);
+		System.out.println(c7);
+		System.out.println(c8);
+		System.out.println(c9);
+		System.out.println(c10);
 
 	}
 

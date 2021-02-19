@@ -31,7 +31,13 @@ public class CompanyService extends ClientService {
 			throw new CouponSystemException("[x] OPERATION FAILED >>> company not found");
 	}
 
-	// && coupon.getEndDate().isAfter(LocalDate.now())
+	/**
+	 * The method adds coupon to logged in company. Method also should check
+	 * expiration date; but for the learning purpose and test of the thread for
+	 * expired coupons, date check is disabled.
+	 * 
+	 * && coupon.getEndDate().isAfter(LocalDate.now())
+	 */
 	public Coupon addCoupon(Coupon coupon) throws CouponSystemException {
 		Coupon couponDB = couponRepository.findByTitle(coupon.getTitle());
 		if ((couponDB == null || couponDB.getCompany().getId() != this.id)) {

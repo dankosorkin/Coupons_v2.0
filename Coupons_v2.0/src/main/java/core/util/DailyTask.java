@@ -27,13 +27,20 @@ public class DailyTask extends Thread {
 		System.out.println(" <<<<<<<<<< Daily task start >>>>>>>>>>");
 	}
 
+	/**
+	 * The method defines thread action to delete expired coupons from database.
+	 * Current version runs after 5 seconds, real version should make this operation
+	 * once in a day (24 * 60 * 60 * 1000).
+	 */
 	@Override
 	public void run() {
 		while (!quit) {
 			try {
 				Thread.sleep(5000);
 				List<Coupon> coupons = repository.findByEndDateBefore(LocalDate.now());
+				System.out.println("********** Expired coupons **********");
 				for (Coupon coupon : coupons) {
+					System.out.println(coupon);
 					repository.delete(coupon);
 				}
 			} catch (CouponSystemException e) {

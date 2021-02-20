@@ -4,9 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -24,9 +21,6 @@ public class CustomerService extends ClientService {
 
 	private Integer id;
 
-	@PersistenceContext
-	private EntityManager em;
-
 	@Override
 	public boolean login(String email, String password) throws CouponSystemException {
 		Customer customer = customerRepository.findByEmailAndPassword(email, password);
@@ -39,16 +33,24 @@ public class CustomerService extends ClientService {
 
 	public boolean purchaseCoupon(Coupon coupon) throws CouponSystemException {
 
-		// synchronize with database
-		em.refresh(coupon);
+		Coupon couponToPurchase = null;
+
+		Optional<Coupon> optCoupon = couponRepository.findById(coupon.getId());
+		if (optCoupon.isPresent()) {
+			couponToPurchase = optCoupon.get();
+		}
 
 		// check coupon quantity
-		if (coupon.getAmount() < 1)
+		if (couponToPurchase == null)
+			throw new CouponSystemException("Coupon not found");
+
+		// check coupon quantity
+		if (couponToPurchase.getAmount() < 1)
 			throw new CouponSystemException("Selected coupon is out of stock");
 
 		// check coupon date
-		if (coupon.getEndDate().isBefore(LocalDate.now()))
-			throw new CouponSystemException("Selceted coupon is expired");
+		if (couponToPurchase.getEndDate().isBefore(LocalDate.now()))
+			throw new CouponSystemException("Selected coupon is expired");
 
 		// check customer coupons purchases
 		Optional<Customer> opt = customerRepository.findById(this.id);
@@ -56,14 +58,16 @@ public class CustomerService extends ClientService {
 			Customer customer = opt.get();
 
 			List<Coupon> coupons = customer.getCoupons();
-			em.refresh(coupons);
 
 			for (Coupon current : coupons) {
-				if (current.getId() == coupon.getId())
+				if (current.getId() == couponToPurchase.getId())
 					throw new CouponSystemException("You allready both this coupon");
 			}
-			em.merge(coupon);
-			customer.addCoupon(coupon);
+			// add to customer purchases
+			customer.addCoupon(couponToPurchase);
+
+			// decrease coupon amount
+			coupon.setAmount(coupon.getAmount() - 1);
 
 			return true;
 		} else
@@ -71,6 +75,7 @@ public class CustomerService extends ClientService {
 	}
 
 	public List<Coupon> getAllCoupons() throws CouponSystemException {
+
 		return null;
 	}
 

@@ -14,6 +14,9 @@ import core.entities.Company;
 import core.entities.Coupon;
 import core.exceptions.CouponSystemException;
 
+/*
+ * The class described business logic for company allowed methods
+ */
 @Service
 @Transactional
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
@@ -21,6 +24,14 @@ public class CompanyService extends ClientService {
 
 	private Integer id;
 
+	/**
+	 * Login method check credentials of a company in a database.
+	 * 
+	 * @param String email
+	 * @param String password
+	 * @return boolean
+	 * @throws CouponSystemException
+	 */
 	@Override
 	public boolean login(String email, String password) throws CouponSystemException {
 		Company company = companyRepository.findByEmailAndPassword(email, password);
@@ -37,6 +48,11 @@ public class CompanyService extends ClientService {
 	 * expired coupons, date check is disabled.
 	 * 
 	 * && coupon.getEndDate().isAfter(LocalDate.now())
+	 * 
+	 * @param Coupon coupon
+	 * @return Coupon coupon
+	 * @throws CouponSystemException
+	 * 
 	 */
 	public Coupon addCoupon(Coupon coupon) throws CouponSystemException {
 		Coupon couponDB = couponRepository.findByTitle(coupon.getTitle());
@@ -51,6 +67,18 @@ public class CompanyService extends ClientService {
 		throw new CouponSystemException("[x] OPERATION FAILED >>> add coupon: already exists");
 	}
 
+	/**
+	 * The method updates coupon of a company. Method also should check expiration
+	 * date; but for the learning purpose and test of the thread for expired
+	 * coupons, date check is disabled.
+	 * 
+	 * && coupon.getEndDate().isAfter(LocalDate.now())
+	 * 
+	 * @param Coupon coupon
+	 * @return boolean
+	 * @throws CouponSystemException
+	 * 
+	 */
 	public boolean updateCoupon(Coupon coupon) throws CouponSystemException {
 		Optional<Coupon> opt = couponRepository.findById(coupon.getId());
 		if (opt.isPresent()) {
@@ -69,6 +97,14 @@ public class CompanyService extends ClientService {
 		}
 	}
 
+	/**
+	 * The method delete coupon of a company.
+	 * 
+	 * @param Integer id
+	 * @return Coupon coupon
+	 * @throws CouponSystemException
+	 * 
+	 */
 	public Coupon deleteCoupon(Integer id) throws CouponSystemException {
 		Optional<Coupon> opt = couponRepository.findById(id);
 		if (opt.isPresent()) {
@@ -79,6 +115,14 @@ public class CompanyService extends ClientService {
 		}
 	}
 
+	/**
+	 * The method gets specific coupon of a company by its id.
+	 * 
+	 * @param Integer id
+	 * @return Coupon coupon
+	 * @throws CouponSystemException
+	 * 
+	 */
 	public Coupon getOneCoupon(Integer id) throws CouponSystemException {
 		Coupon coupon = couponRepository.getOne(id);
 		if (coupon != null && coupon.getCompany().getId() == this.id)
@@ -86,13 +130,36 @@ public class CompanyService extends ClientService {
 		throw new CouponSystemException("[X] OPERATION FAILED >>> get coupon: not found");
 	}
 
+	/**
+	 * The method gets all coupons belonging to a company.
+	 * 
+	 * @return List<Coupon> coupons
+	 * @throws CouponSystemException
+	 * 
+	 */
 	public List<Coupon> getAllCoupons() throws CouponSystemException {
-		return couponRepository.findAll();
+		Company company = loggedInCompany();
+		List<Coupon> coupons = company.getCoupons();
+
+		if (coupons == null)
+			throw new CouponSystemException("Not found coupons belonging to the company");
+
+		return coupons;
 	}
 
+	/**
+	 * The method gets all coupons belonging to a company by specific category.
+	 * 
+	 * @param Category category
+	 * @return List<Coupon> coupons
+	 * @throws CouponSystemException
+	 * 
+	 */
 	public List<Coupon> getAllByCategory(Category category) throws CouponSystemException {
 
-		List<Coupon> companyCoupons = companyRepository.getOne(this.id).getCoupons();
+		Company company = loggedInCompany();
+
+		List<Coupon> companyCoupons = company.getCoupons();
 		List<Coupon> categoryCoupons = new ArrayList<Coupon>();
 
 		for (Coupon coupon : companyCoupons)
@@ -102,8 +169,18 @@ public class CompanyService extends ClientService {
 		return categoryCoupons;
 	}
 
+	/**
+	 * The method gets all coupons belonging to a company by max price.
+	 * 
+	 * @param double maxPrice
+	 * @return List<Coupon> coupons
+	 * @throws CouponSystemException
+	 * 
+	 */
 	public List<Coupon> getAllByPrice(double maxPrice) throws CouponSystemException {
-		List<Coupon> companyCoupons = companyRepository.getOne(this.id).getCoupons();
+		Company company = loggedInCompany();
+
+		List<Coupon> companyCoupons = company.getCoupons();
 		List<Coupon> priceCoupons = new ArrayList<Coupon>();
 
 		for (Coupon coupon : companyCoupons)
@@ -112,6 +189,13 @@ public class CompanyService extends ClientService {
 		return priceCoupons;
 	}
 
+	/**
+	 * The method returns logged in company.
+	 * 
+	 * @return Company company
+	 * @throws CouponSystemException
+	 * 
+	 */
 	public Company loggedInCompany() throws CouponSystemException {
 		Optional<Company> opt = companyRepository.findById(id);
 		if (opt.isPresent())

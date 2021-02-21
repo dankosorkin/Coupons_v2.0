@@ -42,7 +42,7 @@ public class AdminService extends ClientService {
 			companyRepository.save(company);
 			return company;
 		} else {
-			throw new CouponSystemException("[x] OPERATION FAILED >>> add company: already exists");
+			throw new CouponSystemException("add company failed: already exists");
 		}
 	}
 
@@ -55,18 +55,16 @@ public class AdminService extends ClientService {
 	 * @throws CouponSystemException
 	 */
 	public boolean updateCompany(Company company) throws CouponSystemException {
-		try {
-			Optional<Company> opt = companyRepository.findById(company.getId());
-			if (opt.isPresent()) {
-				Company companyDB = opt.get();
-				companyDB.setEmail(company.getEmail());
-				companyDB.setPassword(company.getPassword());
-				companyRepository.save(companyDB);
-			}
+		Optional<Company> opt = companyRepository.findById(company.getId());
+		if (opt.isPresent()) {
+			Company companyDB = opt.get();
+			companyDB.setEmail(company.getEmail());
+			companyDB.setPassword(company.getPassword());
+			companyRepository.save(companyDB);
 			return true;
-		} catch (Exception e) {
-			throw new CouponSystemException("[X] OPERATION FAILED >>> update company: not found", e);
 		}
+
+		throw new CouponSystemException("update company failed: not found");
 	}
 
 	/**
@@ -82,8 +80,8 @@ public class AdminService extends ClientService {
 		if (opt.isPresent()) {
 			companyRepository.delete(opt.get());
 			return opt.get();
-		} else
-			throw new CouponSystemException("[X] OPERATION FAILED >>> delete company: not found");
+		}
+		throw new CouponSystemException("delete company failed: not found");
 
 	}
 
@@ -98,8 +96,7 @@ public class AdminService extends ClientService {
 		Optional<Company> opt = companyRepository.findById(id);
 		if (opt.isPresent())
 			return opt.get();
-		else
-			throw new CouponSystemException("[X] OPERATION FAILED >>> get company: not found");
+		throw new CouponSystemException("get company failed: not found");
 	}
 
 	/**
@@ -112,8 +109,7 @@ public class AdminService extends ClientService {
 		List<Company> companies = companyRepository.findAll();
 		if (companies != null)
 			return companies;
-		else
-			throw new CouponSystemException("[X] OPERATION FAILED >>> get all companies: empty list");
+		throw new CouponSystemException("get all companies failed: empty list");
 	}
 
 	/**
@@ -125,11 +121,9 @@ public class AdminService extends ClientService {
 	 * @throws CouponSystemException
 	 */
 	public Customer addCustomer(Customer customer) throws CouponSystemException {
-		if (customerRepository.findByEmail(customer.getEmail()) == null) {
+		if (customerRepository.findByEmail(customer.getEmail()) == null)
 			return customerRepository.save(customer);
-		} else {
-			throw new CouponSystemException("[x] OPERATION FAILED >>> add customer: already exists");
-		}
+		throw new CouponSystemException("add customer failed: already exists");
 	}
 
 	/**
@@ -150,9 +144,8 @@ public class AdminService extends ClientService {
 			customerDB.setPassword(customer.getPassword());
 			customerRepository.save(customerDB);
 			return true;
-		} else {
-			throw new CouponSystemException("[X] OPERATION FAILED >>> update customer: not found");
 		}
+		throw new CouponSystemException("update customer failed: not found");
 	}
 
 	/**
@@ -168,9 +161,8 @@ public class AdminService extends ClientService {
 		if (opt.isPresent()) {
 			customerRepository.delete(opt.get());
 			return opt.get();
-		} else {
-			throw new CouponSystemException("[X] OPERATION FAILED >>> delete customer: not found");
 		}
+		throw new CouponSystemException("delete customer failed: not found");
 	}
 
 	/**
@@ -185,7 +177,7 @@ public class AdminService extends ClientService {
 		if (opt.isPresent())
 			return opt.get();
 		else
-			throw new CouponSystemException("[X] OPERATION FAILED >>> get customer: not found");
+			throw new CouponSystemException("get customer failed: not found");
 	}
 
 	/**
@@ -198,8 +190,7 @@ public class AdminService extends ClientService {
 		List<Customer> companies = customerRepository.findAll();
 		if (companies != null)
 			return companies;
-		else
-			throw new CouponSystemException("[X] OPERATION FAILED >>> get all customers: empty list");
+		throw new CouponSystemException("get all customers: empty list");
 	}
 
 }

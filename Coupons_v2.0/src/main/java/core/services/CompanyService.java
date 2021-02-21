@@ -1,5 +1,6 @@
 package core.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,7 @@ public class CompanyService extends ClientService {
 			this.id = company.getId();
 			return true;
 		} else
-			throw new CouponSystemException("[x] OPERATION FAILED >>> company not found");
+			throw new CouponSystemException("Failed to log you in as company");
 	}
 
 	/**
@@ -47,24 +48,26 @@ public class CompanyService extends ClientService {
 	 * expiration date; but for the learning purpose and test of the thread for
 	 * expired coupons, date check is disabled.
 	 * 
-	 * && coupon.getEndDate().isAfter(LocalDate.now())
-	 * 
 	 * @param Coupon coupon
 	 * @return Coupon coupon
 	 * @throws CouponSystemException
 	 * 
 	 */
 	public Coupon addCoupon(Coupon coupon) throws CouponSystemException {
-		Coupon couponDB = couponRepository.findByTitle(coupon.getTitle());
-		if ((couponDB == null || couponDB.getCompany().getId() != this.id)) {
-			Optional<Company> opt = companyRepository.findById(this.id);
-			if (opt.isPresent()) {
-				Company company = opt.get();
-				company.addCoupon(coupon);
-			}
-			return coupon;
+
+		if (!validateCouponByTitleAndCompanyId(coupon)) {
+			throw new CouponSystemException("add coupon failed: already exists");
 		}
-		throw new CouponSystemException("[x] OPERATION FAILED >>> add coupon: already exists");
+
+//		if (!validateCouponEndDate(coupon)) {
+//			throw new CouponSystemException("add coupon failed: expired coupon");
+//		}
+
+		Company company = loggedInCompany();
+		company.addCoupon(coupon);
+
+		return coupon;
+
 	}
 
 	/**
@@ -80,39 +83,52 @@ public class CompanyService extends ClientService {
 	 * 
 	 */
 	public boolean updateCoupon(Coupon coupon) throws CouponSystemException {
-		Optional<Coupon> opt = couponRepository.findById(coupon.getId());
-		if (opt.isPresent()) {
-			Coupon couponDB = opt.get();
-			couponDB.setCategory(coupon.getCategory());
-			couponDB.setTitle(coupon.getTitle());
-			couponDB.setDescription(coupon.getDescription());
-			couponDB.setStartDate(coupon.getStartDate());
-			couponDB.setEndDate(coupon.getEndDate());
-			couponDB.setAmount(coupon.getAmount());
-			couponDB.setPrice(coupon.getPrice());
-			couponDB.setImage(coupon.getImage());
-			return couponRepository.save(couponDB) != null;
-		} else {
-			throw new CouponSystemException("[x] OPERATION FAILED >>> update coupon: not found");
-		}
+		Coupon couponDB = findCoupon(coupon.getId());
+
+		if (couponDB == null)
+			throw new CouponSystemException("update coupon failed: not found");
+
+		if (!validateCouponEndDate(coupon))
+			throw new CouponSystemException("update coupon failed: expired coupon");
+
+		if (!validateCouponByTitleAndCompanyId(coupon))
+			throw new CouponSystemException("update coupon failed: already exists - title should be unique");
+
+		if (coupon.getAmount() < 1)
+			throw new CouponSystemException("update coupon failed: amount should be grater then 0");
+
+		if (coupon.getPrice() < 0)
+			throw new CouponSystemException("update coupon failed: price should be positive number");
+
+		couponDB.setCategory(coupon.getCategory());
+		couponDB.setTitle(coupon.getTitle());
+		couponDB.setDescription(coupon.getDescription());
+		couponDB.setStartDate(coupon.getStartDate());
+		couponDB.setEndDate(coupon.getEndDate());
+		couponDB.setAmount(coupon.getAmount());
+		couponDB.setPrice(coupon.getPrice());
+		couponDB.setImage(coupon.getImage());
+
+		return couponRepository.save(couponDB) != null;
 	}
 
 	/**
 	 * The method delete coupon of a company.
 	 * 
 	 * @param Integer id
-	 * @return Coupon coupon
+	 * @return boolean
 	 * @throws CouponSystemException
 	 * 
 	 */
-	public Coupon deleteCoupon(Integer id) throws CouponSystemException {
-		Optional<Coupon> opt = couponRepository.findById(id);
-		if (opt.isPresent()) {
-			couponRepository.delete(opt.get());
-			return opt.get();
-		} else {
-			throw new CouponSystemException("[X] OPERATION FAILED >>> delete coupon: not found");
-		}
+	public boolean deleteCoupon(Integer id) throws CouponSystemException {
+		if (findCoupon(id) == null)
+			throw new CouponSystemException("delete coupon failed: coupon not found");
+
+		if (findCoupon(id).getCompany().getId() != this.id)
+			throw new CouponSystemException("delete coupon failed: coupon doesnt belong to the company");
+
+		couponRepository.delete(findCoupon(id));
+		return true;
 	}
 
 	/**
@@ -124,31 +140,37 @@ public class CompanyService extends ClientService {
 	 * 
 	 */
 	public Coupon getOneCoupon(Integer id) throws CouponSystemException {
-		Coupon coupon = couponRepository.getOne(id);
-		if (coupon != null && coupon.getCompany().getId() == this.id)
-			return coupon;
-		throw new CouponSystemException("[X] OPERATION FAILED >>> get coupon: not found");
+		Coupon coupon = findCoupon(id);
+
+		if (coupon == null)
+			throw new CouponSystemException("get coupon failed: coupon not found");
+
+		if (coupon.getCompany().getId() != this.id)
+			throw new CouponSystemException("get coupon failed: coupon doesnt belong to the company");
+
+		return coupon;
 	}
 
 	/**
-	 * The method gets all coupons belonging to a company.
+	 * The method returns collection of all the coupons belonging to the company.
 	 * 
 	 * @return List<Coupon> coupons
 	 * @throws CouponSystemException
 	 * 
 	 */
 	public List<Coupon> getAllCoupons() throws CouponSystemException {
-		Company company = loggedInCompany();
-		List<Coupon> coupons = company.getCoupons();
+
+		List<Coupon> coupons = couponRepository.findAllByComapnyId(this.id);
 
 		if (coupons == null)
-			throw new CouponSystemException("Not found coupons belonging to the company");
+			throw new CouponSystemException("The company have no coupons");
 
 		return coupons;
 	}
 
 	/**
-	 * The method gets all coupons belonging to a company by specific category.
+	 * The method returns collection of all the coupons from specific category
+	 * belonging to the company.
 	 * 
 	 * @param Category category
 	 * @return List<Coupon> coupons
@@ -157,16 +179,12 @@ public class CompanyService extends ClientService {
 	 */
 	public List<Coupon> getAllByCategory(Category category) throws CouponSystemException {
 
-		Company company = loggedInCompany();
+		List<Coupon> coupons = couponRepository.findAllByCategory(category);
 
-		List<Coupon> companyCoupons = company.getCoupons();
-		List<Coupon> categoryCoupons = new ArrayList<Coupon>();
+		if (coupons == null)
+			throw new CouponSystemException("The company have no coupons in selected category");
 
-		for (Coupon coupon : companyCoupons)
-			if (coupon.getCategory().equals(category))
-				categoryCoupons.add(coupon);
-
-		return categoryCoupons;
+		return coupons;
 	}
 
 	/**
@@ -178,15 +196,32 @@ public class CompanyService extends ClientService {
 	 * 
 	 */
 	public List<Coupon> getAllByPrice(double maxPrice) throws CouponSystemException {
-		Company company = loggedInCompany();
-
-		List<Coupon> companyCoupons = company.getCoupons();
+		// TODO @Query
+		List<Coupon> companyCoupons = getAllCoupons();
 		List<Coupon> priceCoupons = new ArrayList<Coupon>();
 
 		for (Coupon coupon : companyCoupons)
 			if (coupon.getPrice() <= maxPrice)
 				priceCoupons.add(coupon);
 		return priceCoupons;
+	}
+
+	private boolean validateCouponByTitleAndCompanyId(Coupon coupon) throws CouponSystemException {
+		Coupon couponDB = couponRepository.findByTitle(coupon.getTitle());
+		return (couponDB == null || couponDB.getCompany().getId() != this.id);
+	}
+
+	private boolean validateCouponEndDate(Coupon coupon) {
+		return coupon.getEndDate().isAfter(LocalDate.now());
+	}
+
+	private Coupon findCoupon(Integer id) {
+		Coupon coupon = null;
+
+		Optional<Coupon> opt = couponRepository.findById(id);
+		if (opt.isPresent())
+			coupon = opt.get();
+		return coupon;
 	}
 
 	/**

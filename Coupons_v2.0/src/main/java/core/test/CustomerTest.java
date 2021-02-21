@@ -1,5 +1,7 @@
 package core.test;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +40,13 @@ public class CustomerTest {
 	public void testAll() {
 		try {
 			login();
-			purchaseCoupon(repository.getOne(1));
+			Optional<Coupon> opt = repository.findById(1);
+			Coupon coupon = null;
+			if (opt.isPresent()) {
+
+				coupon = opt.get();
+			}
+			purchaseCoupon(coupon);
 //			purchaseCoupon(repository.getOne(1));
 		} catch (CouponSystemException e) {
 			e.printStackTrace();

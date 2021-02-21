@@ -124,7 +124,7 @@ public class CompanyTest {
 			deleteCoupon(2);
 			getAllCoupons();
 			getAllByCategory();
-			getAllByPrice(8);
+			getAllByPrice(9.0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

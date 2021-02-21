@@ -16,10 +16,13 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
 	List<Coupon> findByEndDateBefore(LocalDate date) throws CouponSystemException;
 
-	@Query("select c from Coupon c where c.company=id")
+	@Query("select c from Coupon c where c.company = id")
 	List<Coupon> findAllByComapnyId(Integer id) throws CouponSystemException;
 
-	@Query("select c from Coupon c where c.category=category")
+	@Query("select c from Coupon c where c.category = category")
 	List<Coupon> findAllByCategory(Category category) throws CouponSystemException;
+
+	@Query("select c from Coupon c where c.company = id and c.price <= price")
+	List<Coupon> findAllByCompanyAndPrice(Integer id, double price) throws CouponSystemException;
 
 }

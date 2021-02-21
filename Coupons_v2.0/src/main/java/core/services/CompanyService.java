@@ -1,7 +1,6 @@
 package core.services;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -195,15 +194,15 @@ public class CompanyService extends ClientService {
 	 * @throws CouponSystemException
 	 * 
 	 */
-	public List<Coupon> getAllByPrice(double maxPrice) throws CouponSystemException {
-		// TODO @Query
-		List<Coupon> companyCoupons = getAllCoupons();
-		List<Coupon> priceCoupons = new ArrayList<Coupon>();
+	public List<Coupon> getAllByPrice(double price) throws CouponSystemException {
 
-		for (Coupon coupon : companyCoupons)
-			if (coupon.getPrice() <= maxPrice)
-				priceCoupons.add(coupon);
-		return priceCoupons;
+		List<Coupon> coupons = couponRepository.findAllByCompanyAndPrice(this.id, price);
+		System.out.println(">>>>>>>>>> " + coupons.size());
+
+		if (coupons == null)
+			throw new CouponSystemException("The company have no coupons in selected price range");
+
+		return coupons;
 	}
 
 	private boolean validateCouponByTitleAndCompanyId(Coupon coupon) throws CouponSystemException {

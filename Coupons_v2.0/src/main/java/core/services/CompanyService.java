@@ -178,7 +178,7 @@ public class CompanyService extends ClientService {
 	 */
 	public List<Coupon> getAllByCategory(Category category) throws CouponSystemException {
 
-		List<Coupon> coupons = couponRepository.findAllByCategory(category);
+		List<Coupon> coupons = couponRepository.findAllByCompanyAndCategory(category);
 
 		if (coupons == null)
 			throw new CouponSystemException("The company have no coupons in selected category");

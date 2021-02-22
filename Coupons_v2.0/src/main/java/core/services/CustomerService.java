@@ -1,6 +1,5 @@
 package core.services;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +23,14 @@ public class CustomerService extends ClientService {
 
 	private Integer id;
 
+	/**
+	 * Login method check credentials of a customer in a database.
+	 * 
+	 * @param String email
+	 * @param String password
+	 * @return boolean
+	 * @throws CouponSystemException
+	 */
 	@Override
 	public boolean login(String email, String password) throws CouponSystemException {
 		Customer customer = customerRepository.findByEmailAndPassword(email, password);
@@ -34,6 +41,16 @@ public class CustomerService extends ClientService {
 		throw new CouponSystemException("failed to login");
 	}
 
+	/**
+	 * The method adds coupon to logged in customer purchase. Method also should
+	 * check expiration date; but for the learning purpose and test of the thread
+	 * for expired coupons, date check is disabled.
+	 * 
+	 * @param Coupon coupon
+	 * @return Coupon coupon
+	 * @throws CouponSystemException
+	 * 
+	 */
 	public boolean purchaseCoupon(Coupon coupon) throws CouponSystemException {
 
 		Coupon couponToPurchase = null;
@@ -52,8 +69,8 @@ public class CustomerService extends ClientService {
 			throw new CouponSystemException("Selected coupon is out of stock");
 
 		// check coupon date
-		if (couponToPurchase.getEndDate().isBefore(LocalDate.now()))
-			throw new CouponSystemException("Selected coupon is expired");
+//		if (couponToPurchase.getEndDate().isBefore(LocalDate.now()))
+//			throw new CouponSystemException("Selected coupon is expired");
 
 		// check customer coupons purchases
 		Customer customer = loggedInCustomer();
@@ -83,7 +100,10 @@ public class CustomerService extends ClientService {
 	}
 
 	public List<Coupon> gettAllByCategory(Category category) throws CouponSystemException {
-		return null;
+
+		List<Coupon> coupons = couponRepository.findAllByCustomerAndCategory(this.id, category);
+
+		return coupons;
 	}
 
 	public List<Coupon> getAllByPrice(double maxPrice) throws CouponSystemException {

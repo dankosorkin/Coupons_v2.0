@@ -59,6 +59,14 @@ public class CustomerTest {
 				coupon = opt.get();
 			}
 			purchaseCoupon(coupon);
+			// add expired coupon to check thread job
+			opt = repository.findById(10);
+			coupon = null;
+			if (opt.isPresent()) {
+
+				coupon = opt.get();
+			}
+			purchaseCoupon(coupon);
 //			purchaseCoupon(repository.getOne(1));
 			getAllCoupons();
 		} catch (CouponSystemException e) {

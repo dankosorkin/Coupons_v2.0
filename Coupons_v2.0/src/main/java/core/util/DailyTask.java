@@ -37,7 +37,7 @@ public class DailyTask extends Thread {
 		while (!quit) {
 			try {
 				Thread.sleep(5000);
-				List<Coupon> coupons = repository.findByEndDateBefore(LocalDate.now());
+				List<Coupon> coupons = repository.findAllByEndDateBefore(LocalDate.now());
 				System.out.println("********** Expired coupons **********");
 				for (Coupon coupon : coupons) {
 					System.out.println(coupon);

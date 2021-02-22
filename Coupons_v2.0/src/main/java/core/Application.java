@@ -24,6 +24,8 @@ public class Application {
 			CustomerTest customer = ctx.getBean(CustomerTest.class);
 			customer.testAll();
 
+			company.getAllCoupons();
+
 			Thread.sleep(10000);
 
 		} catch (Exception e) {

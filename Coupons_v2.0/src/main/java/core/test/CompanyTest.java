@@ -31,7 +31,7 @@ public class CompanyTest {
 
 	public void addCoupons() throws CouponSystemException {
 		Coupon c1 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player1",
-				"128Gb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 03, 28), 10, 5.9, null));
+				"128Gb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 03, 28), 2, 5.9, null));
 		Coupon c2 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player2",
 				"256Gb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 03, 28), 10, 6.9, null));
 		Coupon c3 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player3",
@@ -124,7 +124,7 @@ public class CompanyTest {
 			deleteCoupon(2);
 			getAllCoupons();
 			getAllByCategory(Category.ELECTRICITY);
-			getAllByPrice(8.0);
+			getAllByPrice(8);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

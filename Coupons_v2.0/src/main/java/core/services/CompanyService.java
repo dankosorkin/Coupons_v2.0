@@ -159,7 +159,7 @@ public class CompanyService extends ClientService {
 	 */
 	public List<Coupon> getAllCoupons() throws CouponSystemException {
 
-		List<Coupon> coupons = couponRepository.findByCompanyId(this.id);
+		List<Coupon> coupons = couponRepository.findAllByCompanyId(this.id);
 
 		if (coupons == null)
 			throw new CouponSystemException("The company have no coupons");
@@ -178,7 +178,7 @@ public class CompanyService extends ClientService {
 	 */
 	public List<Coupon> getAllByCategory(Category category) throws CouponSystemException {
 
-		List<Coupon> coupons = couponRepository.findByCategory(category);
+		List<Coupon> coupons = couponRepository.findAllByCategory(category);
 
 		if (coupons == null)
 			throw new CouponSystemException("The company have no coupons in selected category");

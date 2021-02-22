@@ -27,4 +27,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	List<Coupon> findAllByCompanyAndPrice(@Param("id") Integer id, @Param("price") double price)
 			throws CouponSystemException;
 
+	@Query(value = "select distinct c from Coupon c inner join c.customers cs where cs.id = :id")
+	List<Coupon> findAllByCustomerId(@Param("id") Integer id) throws CouponSystemException;
+
 }

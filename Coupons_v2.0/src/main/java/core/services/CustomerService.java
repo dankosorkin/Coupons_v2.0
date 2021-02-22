@@ -74,7 +74,9 @@ public class CustomerService extends ClientService {
 
 	public List<Coupon> getAllCoupons() throws CouponSystemException {
 
-		return null;
+		List<Coupon> coupons = couponRepository.findAllByCustomerId(this.id);
+
+		return coupons;
 	}
 
 	public List<Coupon> gettAllByCategory(Category category) throws CouponSystemException {

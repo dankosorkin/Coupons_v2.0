@@ -1,5 +1,6 @@
 package core.test;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,24 @@ public class CustomerTest {
 
 	public void login() throws CouponSystemException {
 		service = (CustomerService) manager.login(email, password, ClientType.CUSTOMER);
-		System.out.println("===== Customer test ======");
+		System.out.println("\n===== Customer test ======");
 	}
 
-	private void purchaseCoupon(Coupon coupon) throws CouponSystemException {
+	public void purchaseCoupon(Coupon coupon) throws CouponSystemException {
 		service.purchaseCoupon(coupon);
 		System.out.println("===== Customer purchases ======");
 		System.out.println(coupon);
+	}
+
+	public void getAllCoupons() throws CouponSystemException {
+		List<Coupon> coupons = service.getAllCoupons();
+
+		if (coupons != null) {
+			System.out.println(">>> All customer coupons");
+			for (Coupon coupon : coupons) {
+				System.out.println(coupon);
+			}
+		}
 	}
 
 	public void testAll() {
@@ -48,6 +60,7 @@ public class CustomerTest {
 			}
 			purchaseCoupon(coupon);
 //			purchaseCoupon(repository.getOne(1));
+			getAllCoupons();
 		} catch (CouponSystemException e) {
 			e.printStackTrace();
 		}

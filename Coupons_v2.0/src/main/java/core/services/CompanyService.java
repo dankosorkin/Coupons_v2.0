@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,11 +15,11 @@ import core.entities.Coupon;
 import core.exceptions.CouponSystemException;
 
 /*
- * The class described business logic for company allowed methods
+ * The class described business logic for company methods
  */
 @Service
 @Transactional
-@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CompanyService extends ClientService {
 
 	private Integer id;

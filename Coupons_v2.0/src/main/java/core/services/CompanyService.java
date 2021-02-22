@@ -161,10 +161,9 @@ public class CompanyService extends ClientService {
 
 		List<Coupon> coupons = couponRepository.findAllByCompanyId(this.id);
 
-		if (coupons == null)
-			throw new CouponSystemException("The company have no coupons");
-
-		return coupons;
+		if (coupons.size() > 0)
+			return coupons;
+		throw new CouponSystemException("The company have no coupons");
 	}
 
 	/**
@@ -180,10 +179,9 @@ public class CompanyService extends ClientService {
 
 		List<Coupon> coupons = couponRepository.findAllByCompanyAndCategory(category);
 
-		if (coupons == null)
-			throw new CouponSystemException("The company have no coupons in selected category");
-
-		return coupons;
+		if (coupons.size() > 0)
+			return coupons;
+		throw new CouponSystemException("The company have no coupons in selected category");
 	}
 
 	/**
@@ -198,10 +196,10 @@ public class CompanyService extends ClientService {
 
 		List<Coupon> coupons = couponRepository.findAllByCompanyAndPrice(this.id, price);
 
-		if (coupons == null)
-			throw new CouponSystemException("The company have no coupons in selected price range");
+		if (coupons.size() > 0)
+			return coupons;
+		throw new CouponSystemException("The company have no coupons in selected price range");
 
-		return coupons;
 	}
 
 	private boolean validateCouponByTitleAndCompanyId(Coupon coupon) throws CouponSystemException {

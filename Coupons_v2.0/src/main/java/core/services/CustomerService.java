@@ -60,11 +60,11 @@ public class CustomerService extends ClientService {
 			couponToPurchase = optCoupon.get();
 		}
 
-		// check if present
+		// check if exists
 		if (couponToPurchase == null)
 			throw new CouponSystemException("Coupon not found");
 
-		// check coupon quantity
+		// check coupon amount
 		if (couponToPurchase.getAmount() < 1)
 			throw new CouponSystemException("Selected coupon is out of stock");
 
@@ -92,24 +92,64 @@ public class CustomerService extends ClientService {
 
 	}
 
+	/**
+	 * The method returns collection of all the coupons belonging to the customer.
+	 * 
+	 * @return List<Coupon> coupons
+	 * @throws CouponSystemException
+	 * 
+	 */
 	public List<Coupon> getAllCoupons() throws CouponSystemException {
 
 		List<Coupon> coupons = couponRepository.findAllByCustomerId(this.id);
 
-		return coupons;
+		if (coupons.size() > 0)
+			return coupons;
+		throw new CouponSystemException("The customer have no coupons");
 	}
 
+	/**
+	 * The method returns collection of all the coupons from specific category
+	 * belonging to the customer.
+	 * 
+	 * @param Category category
+	 * @return List<Coupon> coupons
+	 * @throws CouponSystemException
+	 * 
+	 */
 	public List<Coupon> gettAllByCategory(Category category) throws CouponSystemException {
 
 		List<Coupon> coupons = couponRepository.findAllByCustomerAndCategory(this.id, category);
 
-		return coupons;
+		if (coupons.size() > 0)
+			return coupons;
+		throw new CouponSystemException("The customer have no coupons in selected category");
 	}
 
-	public List<Coupon> getAllByPrice(double maxPrice) throws CouponSystemException {
-		return null;
+	/**
+	 * The method gets all coupons belonging to a customer by max price.
+	 * 
+	 * @param double maxPrice
+	 * @return List<Coupon> coupons
+	 * @throws CouponSystemException
+	 * 
+	 */
+	public List<Coupon> getAllByPrice(double price) throws CouponSystemException {
+
+		List<Coupon> coupons = couponRepository.findAllByCustomerAndPrice(this.id, price);
+
+		if (coupons.size() > 0)
+			return coupons;
+		throw new CouponSystemException("The customer have no coupons in selected price range");
 	}
 
+	/**
+	 * The method returns logged in customer.
+	 * 
+	 * @return Customer customer
+	 * @throws CouponSystemException
+	 * 
+	 */
 	public Customer loggedInCustomer() throws CouponSystemException {
 		Optional<Customer> opt = customerRepository.findById(this.id);
 		if (opt.isPresent())

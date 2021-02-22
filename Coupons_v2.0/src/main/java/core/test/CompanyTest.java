@@ -98,10 +98,10 @@ public class CompanyTest {
 		}
 	}
 
-	public void getAllByCategory() throws CouponSystemException {
-		List<Coupon> coupons = service.getAllByCategory(Category.ELECTRICITY);
+	public void getAllByCategory(Category category) throws CouponSystemException {
+		List<Coupon> coupons = service.getAllByCategory(category);
 
-		System.out.println(">>> All company coupons by category");
+		System.out.println(">>> All company coupons by category " + category);
 		for (Coupon coupon : coupons) {
 			System.out.println(coupon);
 		}
@@ -123,8 +123,8 @@ public class CompanyTest {
 			updateCoupon();
 			deleteCoupon(2);
 			getAllCoupons();
-			getAllByCategory();
-			getAllByPrice(9.0);
+			getAllByCategory(Category.ELECTRICITY);
+			getAllByPrice(8.0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

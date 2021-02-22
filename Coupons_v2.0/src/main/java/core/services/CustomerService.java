@@ -40,7 +40,7 @@ public class CustomerService extends ClientService {
 			couponToPurchase = optCoupon.get();
 		}
 
-		// check coupon quantity
+		// check if present
 		if (couponToPurchase == null)
 			throw new CouponSystemException("Coupon not found");
 
@@ -53,25 +53,23 @@ public class CustomerService extends ClientService {
 			throw new CouponSystemException("Selected coupon is expired");
 
 		// check customer coupons purchases
-		Optional<Customer> opt = customerRepository.findById(this.id);
-		if (opt.isPresent()) {
-			Customer customer = opt.get();
+		Customer customer = loggedInCustomer();
 
-			List<Coupon> coupons = customer.getCoupons();
+		List<Coupon> coupons = customer.getCoupons();
 
-			for (Coupon current : coupons) {
-				if (current.getId() == couponToPurchase.getId())
-					throw new CouponSystemException("You allready both this coupon");
-			}
-			// add to customer purchases
-			customer.addCoupon(couponToPurchase);
+		for (Coupon current : coupons) {
+			if (current.getId() == couponToPurchase.getId())
+				throw new CouponSystemException("You allready bougth this coupon");
+		}
 
-			// decrease coupon amount
-			coupon.setAmount(coupon.getAmount() - 1);
+		// decrease coupon amount
+		couponToPurchase.setAmount(coupon.getAmount() - 1);
 
-			return true;
-		} else
-			throw new CouponSystemException("Failed purchase coupon");
+		// add to customer purchases
+		customer.addCoupon(couponToPurchase);
+
+		return true;
+
 	}
 
 	public List<Coupon> getAllCoupons() throws CouponSystemException {
@@ -88,7 +86,10 @@ public class CustomerService extends ClientService {
 	}
 
 	public Customer loggedInCustomer() throws CouponSystemException {
-		return null;
+		Optional<Customer> opt = customerRepository.findById(this.id);
+		if (opt.isPresent())
+			return opt.get();
+		throw new CouponSystemException("not logged in");
 	}
 
 }

@@ -17,24 +17,26 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
 	List<Coupon> findAllByEndDateBefore(LocalDate date) throws CouponSystemException;
 
-	@Query(value = "select distinct c from Coupon c where c.company.id = :id")
+	@Query(value = "select distinct coupon from Coupon coupon where coupon.company.id = :id")
 	List<Coupon> findAllByCompanyId(@Param("id") Integer id) throws CouponSystemException;
 
-	@Query(value = "select distinct c from Coupon c where c.category = :category")
+	@Query(value = "select distinct coupon from Coupon coupon where coupon.category = :category")
 	List<Coupon> findAllByCompanyAndCategory(@Param("category") Category category) throws CouponSystemException;
 
-	@Query(value = "select distinct c from Coupon c where c.company.id = :id and c.price <= :price")
+	@Query(value = "select distinct coupon from Coupon coupon where coupon.company.id = :id and coupon.price <= :price")
 	List<Coupon> findAllByCompanyAndPrice(@Param("id") Integer id, @Param("price") double price)
 			throws CouponSystemException;
 
-	@Query(value = "select distinct c from Coupon c inner join c.customers cs where cs.id = :id")
+	@Query(value = "select distinct coupon from Coupon coupon inner join coupon.customers customer where customer.id = :id")
 	List<Coupon> findAllByCustomerId(@Param("id") Integer id) throws CouponSystemException;
 
-	@Query(value = "select distinct c from Coupon c inner join c.customers cs where cs.id = :id and c.category = :category")
+	@Query(value = "select distinct coupon from Coupon coupon inner join "
+			+ "coupon.customers customer where customer.id = :id and coupon.category = :category")
 	List<Coupon> findAllByCustomerAndCategory(@Param("id") Integer id, @Param("category") Category category)
 			throws CouponSystemException;
 
-	@Query(value = "select distinct c from Coupon c inner join c.customers cs where cs.id = :id and c.price <= :price")
+	@Query(value = "select distinct coupon from Coupon coupon inner join "
+			+ "coupon.customers customer where customer.id = :id and coupon.price <= :price")
 	List<Coupon> findAllByCustomerAndPrice(@Param("id") Integer id, @Param("price") double price)
 			throws CouponSystemException;
 

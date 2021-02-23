@@ -27,11 +27,13 @@ public class AdminTest {
 
 	public void login() throws CouponSystemException {
 		service = (AdminService) manager.login(email, password, ClientType.ADMINISTRATOR);
-		System.out.println("===== Admin test ======");
+
+		System.out.println();
+		System.out.println("========== Admin test ==========");
 	}
 
 	public void addCompanies() throws CouponSystemException {
-		System.out.println("=== Add companies ===");
+		System.out.println(">>> Add companies");
 		Company c1 = service.addCompany(new Company("Apple", "apple@mail", "pass1234"));
 		Company c2 = service.addCompany(new Company("Sony", "sony@mail", "pass1234"));
 		Company c3 = service.addCompany(new Company("LG", "lg@mail", "pass1234"));
@@ -43,29 +45,33 @@ public class AdminTest {
 		System.out.println(c3);
 		System.out.println(c4);
 		System.out.println(c5);
+
+		System.out.println();
 	}
 
 	public void updateCompany(int id) throws CouponSystemException {
-		System.out.println("=== Update company ===");
+		System.out.println(">>> Update company");
 		Company company = service.getOneCompany(id);
 
+		System.out.println("Before: " + service.getOneCompany(company.getId()));
 		company.setName("SonyInc");
 		company.setEmail("new_sony@mail");
 		company.setPassword("sony1234");
 		if (service.updateCompany(company))
-			System.out.println(service.getOneCompany(company.getId()));
-
+			System.out.println("After: " + service.getOneCompany(company.getId()));
+		System.out.println();
 	}
 
 	public void deleteCompany(int id) throws CouponSystemException {
-		System.out.println("=== Delete company ===");
+		System.out.println(">>> Delete company");
 		Company deletedCompany;
 		deletedCompany = service.deleteCompany(id);
 		System.out.println("Deleted company: " + deletedCompany);
+		System.out.println();
 	}
 
 	public void getCompany(int id) throws CouponSystemException {
-		System.out.println("=== Get one company ===");
+		System.out.println("=== Get one company");
 		System.out.println(service.getOneCompany(id));
 	}
 

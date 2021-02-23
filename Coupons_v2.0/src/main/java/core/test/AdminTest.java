@@ -71,12 +71,13 @@ public class AdminTest {
 	}
 
 	public void getCompany(int id) throws CouponSystemException {
-		System.out.println("=== Get one company");
+		System.out.println(">>> Get one company");
 		System.out.println(service.getOneCompany(id));
+		System.out.println();
 	}
 
 	public void getCompanies() throws CouponSystemException {
-		System.out.println("=== List of companies ===");
+		System.out.println(">>> List of companies");
 		List<Company> companies;
 		companies = service.getAllComapnies();
 		if (companies != null) {
@@ -84,12 +85,13 @@ public class AdminTest {
 				System.out.println(company);
 			}
 		} else {
-			System.out.println(">>> List of companies is empty");
+			System.out.println("*** List of companies is empty ***");
 		}
+		System.out.println();
 	}
 
 	public void addCustomers() throws CouponSystemException {
-		System.out.println("=== Add customers ===");
+		System.out.println(">>> Add customers");
 		Customer cs1 = service.addCustomer(new Customer("Avi", "Aaa", "avi@mail", "avi1234"));
 		Customer cs2 = service.addCustomer(new Customer("Beny", "Bbb", "beny@mail", "beny1234"));
 		Customer cs3 = service.addCustomer(new Customer("Eldad", "Ccc", "eldad@mail", "eldad1234"));
@@ -101,34 +103,40 @@ public class AdminTest {
 		System.out.println(cs3);
 		System.out.println(cs4);
 		System.out.println(cs5);
+
+		System.out.println();
 	}
 
 	public void updateCustomer(int id) throws CouponSystemException {
-		System.out.println("=== Update customer ===");
+		System.out.println(">>> Update customer");
 		Customer customer;
 		customer = service.getOneCustomer(id);
+		System.out.println("Before: " + customer);
 		customer.setFirstName("Yosi");
 		customer.setLastName("Yyy");
 		customer.setEmail("yosi@mail");
 		customer.setPassword("yosi1234");
 		if (service.updateCustomer(customer))
-			System.out.println(service.getOneCustomer(customer.getId()));
+			System.out.println("After: " + service.getOneCustomer(customer.getId()));
+		System.out.println();
 	}
 
 	public void deleteCustomer(int id) throws CouponSystemException {
-		System.out.println("=== Delete customer ===");
+		System.out.println(">>> Delete customer");
 		Customer customer;
 		customer = service.deleteCustomer(id);
 		System.out.println("Deleted customer: " + customer);
+		System.out.println();
 	}
 
 	public void getCustomer(int id) throws CouponSystemException {
-		System.out.println("=== Get one customer ===");
+		System.out.println(">>> Get one customer");
 		System.out.println(service.getOneCustomer(id));
+		System.out.println();
 	}
 
 	public void getCustomers() throws CouponSystemException {
-		System.out.println("=== List of customers ===");
+		System.out.println(">>> List of customers");
 		List<Customer> customers;
 		customers = service.getAllCustomers();
 		if (customers != null) {
@@ -136,8 +144,9 @@ public class AdminTest {
 				System.out.println(customer);
 			}
 		} else {
-			System.out.println(">>> List of customers is empty");
+			System.out.println("*** List of customers is empty ***");
 		}
+		System.out.println();
 	}
 
 	public void testAll() {

@@ -117,7 +117,7 @@ public class CustomerService extends ClientService {
 	 * @throws CouponSystemException
 	 * 
 	 */
-	public List<Coupon> gettAllByCategory(Category category) throws CouponSystemException {
+	public List<Coupon> getAllByCategory(Category category) throws CouponSystemException {
 
 		List<Coupon> coupons = couponRepository.findAllByCustomerAndCategory(this.id, category);
 

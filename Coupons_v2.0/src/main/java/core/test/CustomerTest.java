@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import core.entities.Category;
 import core.entities.Coupon;
 import core.exceptions.CouponSystemException;
 import core.login.ClientType;
@@ -29,13 +30,14 @@ public class CustomerTest {
 
 	public void login() throws CouponSystemException {
 		service = (CustomerService) manager.login(email, password, ClientType.CUSTOMER);
-		System.out.println("\n===== Customer test ======");
+		System.out.println("========== Customer test ==========");
 	}
 
 	public void purchaseCoupon(Coupon coupon) throws CouponSystemException {
 		service.purchaseCoupon(coupon);
-		System.out.println("===== Customer purchases ======");
+		System.out.println(">>> Purchase coupon");
 		System.out.println(coupon);
+		System.out.println();
 	}
 
 	public void getAllCoupons() throws CouponSystemException {
@@ -47,28 +49,50 @@ public class CustomerTest {
 				System.out.println(coupon);
 			}
 		}
+
+		System.out.println();
+	}
+
+	public void getAllByCategory(Category category) throws CouponSystemException {
+		List<Coupon> coupons = service.getAllByCategory(category);
+
+		System.out.println(">>> All customer coupons by category " + category);
+		for (Coupon coupon : coupons) {
+			System.out.println(coupon);
+		}
+
+		System.out.println();
+	}
+
+	public void getAllByPrice(double price) throws CouponSystemException {
+		List<Coupon> coupons = service.getAllByPrice(price);
+
+		System.out.println(">>> All customer coupons by max price");
+		for (Coupon coupon : coupons) {
+			System.out.println(coupon);
+		}
+	}
+
+	private Coupon couponToPurchase(Integer id) throws CouponSystemException {
+		Optional<Coupon> opt = repository.findById(id);
+		Coupon coupon = null;
+		if (opt.isPresent())
+			return opt.get();
+		throw new CouponSystemException("");
 	}
 
 	public void testAll() {
 		try {
 			login();
-			Optional<Coupon> opt = repository.findById(1);
-			Coupon coupon = null;
-			if (opt.isPresent()) {
-
-				coupon = opt.get();
-			}
-			purchaseCoupon(coupon);
+			purchaseCoupon(couponToPurchase(1));
 			// add expired coupon to check thread job
-			opt = repository.findById(10);
-			coupon = null;
-			if (opt.isPresent()) {
-
-				coupon = opt.get();
-			}
-			purchaseCoupon(coupon);
-//			purchaseCoupon(repository.getOne(1));
+			purchaseCoupon(couponToPurchase(4));
+			purchaseCoupon(couponToPurchase(6));
+			purchaseCoupon(couponToPurchase(8));
+			purchaseCoupon(couponToPurchase(10));
 			getAllCoupons();
+			getAllByCategory(Category.ELECTRICITY);
+			getAllByPrice(8);
 		} catch (CouponSystemException e) {
 			e.printStackTrace();
 		}

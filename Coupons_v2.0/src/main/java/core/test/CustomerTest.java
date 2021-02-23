@@ -56,7 +56,7 @@ public class CustomerTest {
 	public void getAllByCategory(Category category) throws CouponSystemException {
 		List<Coupon> coupons = service.getAllByCategory(category);
 
-		System.out.println(">>> All customer coupons by category " + category);
+		System.out.println(">>> All customer coupons by category: " + category);
 		for (Coupon coupon : coupons) {
 			System.out.println(coupon);
 		}
@@ -67,7 +67,7 @@ public class CustomerTest {
 	public void getAllByPrice(double price) throws CouponSystemException {
 		List<Coupon> coupons = service.getAllByPrice(price);
 
-		System.out.println(">>> All customer coupons by max price");
+		System.out.println(">>> All customer coupons by max price: " + price);
 		for (Coupon coupon : coupons) {
 			System.out.println(coupon);
 		}

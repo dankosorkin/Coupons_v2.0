@@ -24,7 +24,9 @@ public class Application {
 			CustomerTest customer = ctx.getBean(CustomerTest.class);
 			customer.testAll();
 
+			System.out.println();
 			System.out.println("!!! WAIT !!!");
+			System.out.println();
 			Thread.sleep(10000);
 			System.out.println();
 			System.out.println(">>> After deleting expired coupons");

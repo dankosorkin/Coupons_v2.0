@@ -76,12 +76,12 @@ public class CustomerService extends ClientService {
 		List<Coupon> coupons = loggedInCustomer().getCoupons();
 
 		for (Coupon current : coupons) {
-			if (current.getId() == couponToPurchase.getId())
+			if (current.equals(couponToPurchase))
 				throw new CouponSystemException("You allready bougth this coupon");
 		}
 
 		// decrease coupon amount
-		couponToPurchase.setAmount(coupon.getAmount() - 1);
+		couponToPurchase.setAmount(couponToPurchase.getAmount() - 1);
 
 		// add to customer purchases
 		loggedInCustomer().addCoupon(couponToPurchase);

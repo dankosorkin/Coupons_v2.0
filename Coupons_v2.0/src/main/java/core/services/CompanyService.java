@@ -62,8 +62,7 @@ public class CompanyService extends ClientService {
 //			throw new CouponSystemException("add coupon failed: expired coupon");
 //		}
 
-		Company company = loggedInCompany();
-		company.addCoupon(coupon);
+		loggedInCompany().addCoupon(coupon);
 
 		return coupon;
 
@@ -159,7 +158,7 @@ public class CompanyService extends ClientService {
 	 */
 	public List<Coupon> getAllCoupons() throws CouponSystemException {
 
-		List<Coupon> coupons = couponRepository.findAllByCompanyId(this.id);
+		List<Coupon> coupons = loggedInCompany().getCoupons();
 
 		if (coupons.size() > 0)
 			return coupons;

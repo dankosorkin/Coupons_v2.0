@@ -153,6 +153,9 @@ public class Company implements Serializable {
 		this.coupons = coupons;
 	}
 
+	/**
+	 * The method add new coupon to the company
+	 */
 	public boolean addCoupon(Coupon coupon) {
 		if (this.coupons == null) {
 			coupons = new ArrayList<Coupon>();

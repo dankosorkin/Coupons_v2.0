@@ -225,7 +225,15 @@ public class CompanyService extends ClientService {
 		return coupon.getEndDate().isAfter(LocalDate.now());
 	}
 
-	private Coupon findCoupon(Integer id) {
+	/**
+	 * The method searched database for coupon using its id. Caller of the method
+	 * should check for NULL.
+	 * 
+	 * @param Integer id
+	 * @return Coupon coupon
+	 * @throws CouponSystemException
+	 */
+	private Coupon findCoupon(Integer id) throws CouponSystemException {
 		Coupon coupon = null;
 
 		Optional<Coupon> opt = couponRepository.findById(id);

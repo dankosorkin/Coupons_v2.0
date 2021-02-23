@@ -202,11 +202,25 @@ public class CompanyService extends ClientService {
 
 	}
 
+	/**
+	 * The method check in database if coupon with current title already exists at
+	 * the company.
+	 * 
+	 * @param Coupon coupon
+	 * @return boolean
+	 * @throws CouponSystemException
+	 */
 	private boolean validateCouponByTitleAndCompanyId(Coupon coupon) throws CouponSystemException {
 		Coupon couponDB = couponRepository.findByTitle(coupon.getTitle());
 		return (couponDB == null || couponDB.getCompany().getId() != this.id);
 	}
 
+	/**
+	 * The method validates coupon expiration date
+	 * 
+	 * @param Coupon coupon
+	 * @return boolean
+	 */
 	private boolean validateCouponEndDate(Coupon coupon) {
 		return coupon.getEndDate().isAfter(LocalDate.now());
 	}

@@ -125,9 +125,16 @@ public class CompanyTest {
 		System.out.println();
 	}
 
+	public void getCompanyDetails() throws CouponSystemException {
+		System.out.println(">>> Company details");
+		System.out.println(service.loggedInCompany());
+		System.out.println();
+	}
+
 	public void testAll() {
 		try {
 			login();
+			getCompanyDetails();
 			addCoupons();
 			updateCoupon();
 			deleteCoupon(2);

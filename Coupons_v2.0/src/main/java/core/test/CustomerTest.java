@@ -81,9 +81,16 @@ public class CustomerTest {
 		throw new CouponSystemException("");
 	}
 
+	public void getCustomerDetails() throws CouponSystemException {
+		System.out.println(">>> Customer details");
+		System.out.println(service.loggedInCustomer());
+		System.out.println();
+	}
+
 	public void testAll() {
 		try {
 			login();
+			getCustomerDetails();
 			purchaseCoupon(couponToPurchase(1));
 			// add expired coupon to check thread job
 			purchaseCoupon(couponToPurchase(4));

@@ -40,8 +40,9 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	 * @param Category category
 	 * @throws CouponSystemException
 	 */
-	@Query(value = "select distinct c from Coupon c where c.category = :category")
-	List<Coupon> findAllByCompanyAndCategory(@Param("category") Category category) throws CouponSystemException;
+	@Query(value = "select distinct c from Coupon c where c.company.id = :id and c.category = :category")
+	List<Coupon> findAllByCompanyAndCategory(@Param("id") Integer id, @Param("category") Category category)
+			throws CouponSystemException;
 
 	/**
 	 * The method seek in database coupon instances belonging to a specific company

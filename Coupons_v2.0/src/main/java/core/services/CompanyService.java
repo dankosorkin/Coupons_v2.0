@@ -73,8 +73,6 @@ public class CompanyService extends ClientService {
 	 * date; but for the learning purpose and test of the thread for expired
 	 * coupons, date check is disabled.
 	 * 
-	 * && coupon.getEndDate().isAfter(LocalDate.now())
-	 * 
 	 * @param Coupon coupon
 	 * @return boolean
 	 * @throws CouponSystemException
@@ -176,7 +174,8 @@ public class CompanyService extends ClientService {
 	 */
 	public List<Coupon> getAllByCategory(Category category) throws CouponSystemException {
 
-		List<Coupon> coupons = couponRepository.findAllByCompanyAndCategory(category);
+		List<Coupon> coupons = couponRepository.findAllByCompanyAndCategory(this.id, category);
+//		List<Coupon> coupons = couponRepository.findAllByAndCategory(this.getClass().getName(), category);
 
 		if (coupons.size() > 0)
 			return coupons;

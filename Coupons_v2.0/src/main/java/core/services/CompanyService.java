@@ -58,6 +58,10 @@ public class CompanyService extends ClientService {
 			throw new CouponSystemException("add coupon failed: already exists");
 		}
 
+		if (!validateCouponStartDate(coupon)) {
+			throw new CouponSystemException("add coupon failed: end date cant be before start date");
+		}
+
 //		if (!validateCouponEndDate(coupon)) {
 //			throw new CouponSystemException("add coupon failed: expired coupon");
 //		}
@@ -211,6 +215,16 @@ public class CompanyService extends ClientService {
 	private boolean validateCouponByTitleAndCompanyId(Coupon coupon) throws CouponSystemException {
 		Coupon couponDB = couponRepository.findByTitle(coupon.getTitle());
 		return (couponDB == null || couponDB.getCompany().getId() != this.id);
+	}
+
+	/**
+	 * The method validates coupon start date
+	 * 
+	 * @param Coupon coupon
+	 * @return boolean
+	 */
+	private boolean validateCouponStartDate(Coupon coupon) {
+		return coupon.getEndDate().isBefore(coupon.getStartDate());
 	}
 
 	/**

@@ -46,7 +46,7 @@ public class Coupon implements Serializable {
 	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinTable(name = "customers_vs_coupons", joinColumns = { @JoinColumn(name = "coupon_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "customer_id") })
-	private List<Customer> customers;
+	private List<Customer> customer;
 
 	/** Empty constructor */
 	public Coupon() {

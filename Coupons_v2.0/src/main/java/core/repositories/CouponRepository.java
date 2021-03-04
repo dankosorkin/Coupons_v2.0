@@ -48,7 +48,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	 * @param double  price
 	 * @throws CouponSystemException
 	 */
-	List<Coupon> findAllByCompanyAndPriceLessThanEqual(Integer id, double price) throws CouponSystemException;
+	List<Coupon> findAllByCompanyIdAndPriceLessThanEqual(Integer id, double price) throws CouponSystemException;
 
 	/**
 	 * The method seek in database coupon instances belonging to a specific customer

@@ -199,7 +199,7 @@ public class CompanyService extends ClientService {
 	 */
 	public List<Coupon> getAllByPrice(double price) throws CouponSystemException {
 
-		List<Coupon> coupons = couponRepository.findAllByCompanyAndPriceLessThanEqual(this.id, price);
+		List<Coupon> coupons = couponRepository.findAllByCompanyIdAndPriceLessThanEqual(this.id, price);
 
 		if (coupons.size() > 0)
 			return coupons;

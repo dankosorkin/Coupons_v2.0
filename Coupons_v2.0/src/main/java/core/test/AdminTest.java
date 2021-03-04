@@ -79,7 +79,7 @@ public class AdminTest {
 	public void getCompanies() throws CouponSystemException {
 		System.out.println(">>> List of companies");
 		List<Company> companies;
-		companies = service.getAllComapnies();
+		companies = service.getAllCompanies();
 		if (companies != null) {
 			for (Company company : companies) {
 				System.out.println(company);

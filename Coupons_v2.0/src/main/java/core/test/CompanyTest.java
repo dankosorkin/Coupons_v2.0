@@ -32,13 +32,13 @@ public class CompanyTest {
 	public void addCoupons() throws CouponSystemException {
 		System.out.println(">>> Add coupons");
 		Coupon c1 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player1",
-				"128Gb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 12, 28), 2, 5.9, null));
+				"128Gb capacity", LocalDate.now(), LocalDate.of(2021, 12, 28), 2, 5.9, null));
 		Coupon c2 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player2",
-				"256Gb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 12, 28), 10, 6.9, null));
+				"256Gb capacity", LocalDate.now(), LocalDate.of(2021, 12, 28), 10, 6.9, null));
 		Coupon c3 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player3",
-				"512Gb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 12, 28), 10, 7.9, null));
+				"512Gb capacity", LocalDate.now(), LocalDate.of(2021, 12, 28), 10, 7.9, null));
 		Coupon c4 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player4",
-				"1Tb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 12, 28), 10, 8.9, null));
+				"1Tb capacity", LocalDate.now(), LocalDate.of(2021, 12, 28), 10, 8.9, null));
 		Coupon c5 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player5",
 				"2Tb capacity", LocalDate.of(2021, 02, 01), LocalDate.of(2021, 12, 17), 10, 9.9, null));
 		Coupon c6 = service.addCoupon(new Coupon(service.loggedInCompany(), Category.ELECTRICITY, "MP3 player6",
@@ -73,7 +73,7 @@ public class CompanyTest {
 		coupon.setTitle("AAAAAAAAA");
 		coupon.setDescription("*** Description ***");
 		coupon.setStartDate(LocalDate.of(2021, 02, 15));
-		coupon.setEndDate(LocalDate.now());
+		coupon.setEndDate(LocalDate.now().plusDays(7));
 		coupon.setAmount(5);
 		coupon.setPrice(2.99);
 		service.updateCoupon(coupon);

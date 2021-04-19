@@ -23,9 +23,11 @@ public class CompanyTest {
 	private LoginManager manager;
 
 	private CompanyService service;
+	private CompanyService service2;
 
 	public void login() throws CouponSystemException {
 		service = (CompanyService) manager.login(email, password, ClientType.COMPANY);
+		service2 = (CompanyService) manager.login("samsung@mail", "pass1234", ClientType.COMPANY);
 		System.out.println("========== Company test ==========");
 	}
 
@@ -128,6 +130,7 @@ public class CompanyTest {
 	public void getCompanyDetails() throws CouponSystemException {
 		System.out.println(">>> Company details");
 		System.out.println(service.loggedInCompany());
+		System.out.println(service2.loggedInCompany());
 		System.out.println();
 	}
 
